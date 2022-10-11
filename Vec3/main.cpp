@@ -9,8 +9,8 @@ int main() {
 	cout << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")" << endl;
 	cout << "(" << c.getX() << ", " << c.getY() << ", " << c.getZ() << ")" << endl;
 
-	Vec3<int> r2 = v.cross_product(c);
-	cout << endl << "Cross product:"  << "(" << r2.getX() << ", " << r2.getY() << ", " << r2.getZ() << ")" << endl;
+	Vec3<int> cp = v.cross_product(c);
+	cout << endl << "Cross product:"  << "(" << cp.getX() << ", " << cp.getY() << ", " << cp.getZ() << ")" << endl;
 	cout << "Expected output: (14, 13, -5)" << endl;
 
 	cout << endl << "Setting new values:" << endl;
@@ -24,8 +24,8 @@ int main() {
 	cout << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")" << endl;
 	cout << "(" << c.getX() << ", " << c.getY() << ", " << c.getZ() << ")" << endl;
 
-	float r1 = v.dot_product(c);
-	cout << endl << "Dot product: " << r1 << endl;
+	float dp = v.dot_product(c);
+	cout << endl << "Dot product: " << dp << endl;
 	cout << "Expected output: 23" << endl;
 
 	cout << endl << "Setting new values:" << endl;
@@ -39,12 +39,19 @@ int main() {
 	cout << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")" << endl;
 	cout << "(" << c.getX() << ", " << c.getY() << ", " << c.getZ() << ")" << endl;
 	
-	cout << endl << "Distance:" << endl;
 	float distance = v.distance_to(c);
-	cout << distance << endl;
+	cout << endl << "Distance: " << distance << endl;
+	cout << "Expected output: 2.44949" << endl;
+
+	cout << endl << "Setting new values:" << endl;
+	v.setX(6);
+	v.setY(6);
+	v.setZ(10);
+	cout << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")" << endl;
+
 
 	cout << endl << "Normalisation:" << endl;
-	Vec3<float> n(5, 6, 10);
-	Vec3<float>r3 = n.Normalize();
-	cout << "(" << r3.getX() << ", " << r3.getY() << ", " << r3.getZ() << ")" << endl;
+	Vec3<float>n = v.Normalize();
+	cout << "(" << n.getX() << ", " << n.getY() << ", " << n.getZ() << ")" << endl;
+	cout << "Expected output: (0.394055, 0.472866, 0.78811)" << endl;	
 }
