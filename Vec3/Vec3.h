@@ -15,15 +15,13 @@ public:
 	T getX();
 	T getY();
 	T getZ();
-    T setX(T x);
-	T setY(T y);
-	T setZ(T z);
+    void setX(T x);
+	void setY(T y);
+	void setZ(T z);
 	Vec3<T> Normalize();
 	float distance_to(Vec3<T> v);
-	Vec3<T> dot_product(Vec3<T> v);
-	void cross_product(Vec3<T> v);
+	T dot_product(Vec3<T> v);
+	Vec3<T> cross_product(Vec3<T> v);
 	void angle_between(Vec3<T> v);
 
 };
-
-#pragma once
