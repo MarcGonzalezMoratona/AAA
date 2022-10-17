@@ -3,6 +3,7 @@
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "SDL/include/SDL.h"
+#include "ModuleScene.h"
 
 ModuleRender::ModuleRender()
 {
@@ -35,13 +36,27 @@ bool ModuleRender::Init()
 	return ret;
 }
 
+update_status ModuleRender::PreUpdate()
+{
+	SDL_RenderClear(renderer);
+	return UPDATE_CONTINUE;
+}
+
 // Called every draw update
 update_status ModuleRender::Update()
 {
-	SDL_RenderClear(renderer);
-
 	// TODO 5: Now that we have PreUpdate/PostUpdate/Update move things around so we can render
+	SDL_Rect rect;
+	rect.x = 0;
+	rect.y = 0;
+	rect.w = 640;
+	rect.h = 480;
+	Blit(App->scene->GetTexture(), 40, 0, &rect);
+	return UPDATE_CONTINUE;
+}
 
+update_status ModuleRender::PostUpdate()
+{
 	SDL_RenderPresent(renderer);
 	return UPDATE_CONTINUE;
 }

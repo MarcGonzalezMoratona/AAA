@@ -34,6 +34,7 @@ update_status ModuleInput::Update()
 	keyboard = SDL_GetKeyboardState(NULL);
 
 	// TODO 1: Make the application properly close when ESC is pressed (do not use exit())
+	if (keyboard[SDL_SCANCODE_ESCAPE]) return UPDATE_STOP;
 
 	return UPDATE_CONTINUE;
 }
