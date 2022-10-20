@@ -3,13 +3,13 @@
 using namespace std;
 
 int main() {
-	Vec3<int> v(7, 6, 4);
-	Vec3<int> c(2, 1, 3);
+	Vec3<float> v(7, 6, 4);
+	Vec3<float> c(2, 1, 3);
 	cout << "Initial values:" << endl;
 	cout << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")" << endl;
 	cout << "(" << c.getX() << ", " << c.getY() << ", " << c.getZ() << ")" << endl;
 
-	Vec3<int> cp = v.cross_product(c);
+	Vec3<float> cp = v.cross_product(c);
 	cout << endl << "Cross product:"  << "(" << cp.getX() << ", " << cp.getY() << ", " << cp.getZ() << ")" << endl;
 	cout << "Expected output: (14, 13, -5)" << endl;
 
@@ -44,14 +44,30 @@ int main() {
 	cout << "Expected output: 2.44949" << endl;
 
 	cout << endl << "Setting new values:" << endl;
-	v.setX(6);
-	v.setY(6);
-	v.setZ(10);
+	v.setX(5);
+	v.setY(7);
+	v.setZ(9);
 	cout << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")" << endl;
 
 
-	cout << endl << "Normalisation:" << endl;
+	cout << endl << "Normalisation: ";
 	Vec3<float>n = v.Normalize();
 	cout << "(" << n.getX() << ", " << n.getY() << ", " << n.getZ() << ")" << endl;
-	cout << "Expected output: (0.394055, 0.472866, 0.78811)" << endl;	
+	cout << "Expected output: (0.40161, 0.562254, 0.722897)" << endl;
+
+	cout << endl << "Setting new values:" << endl;
+	v.setX(1);
+	v.setY(2);
+	v.setZ(3);
+	c.setX(4);
+	c.setY(5);
+	c.setZ(6);
+
+	cout << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")" << endl;
+	cout << "(" << c.getX() << ", " << c.getY() << ", " << c.getZ() << ")" << endl;
+
+	cout << endl << "Angle between" << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ") " << "and (" << c.getX() << ", " << c.getY() << ", " << c.getZ() << "): " << v.angle_between(c) << "°" << endl;
+	cout << "Expected output: 12.9332°" << endl;
+
+	
 }

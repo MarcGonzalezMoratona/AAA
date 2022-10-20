@@ -57,7 +57,7 @@ void Vec3<T>::setZ(T z) {
 
 template <class T>
 Vec3<T> Vec3<T>::Normalize() {
-	float length = sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2));
+	float length = sqrt((pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2)));
 	return Vec3<T>(this->x / length, this->y / length, this->z / length);
 }
 
@@ -79,6 +79,8 @@ Vec3<T> Vec3<T>::cross_product(Vec3<T> v) {
 }
 
 template <class T>
-void Vec3<T>::angle_between(Vec3<T> v) {
-
+float Vec3<T>::angle_between(Vec3<T> v) {
+	return 180*(acos(this->dot_product(v) / 
+		(sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2)) * 
+		sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2)))))/M_PI;
 }

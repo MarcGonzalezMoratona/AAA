@@ -22,6 +22,6 @@ public:
 	float distance_to(Vec3<T> v);
 	T dot_product(Vec3<T> v);
 	Vec3<T> cross_product(Vec3<T> v);
-	void angle_between(Vec3<T> v);
+	float angle_between(Vec3<T> v);
 
 };
