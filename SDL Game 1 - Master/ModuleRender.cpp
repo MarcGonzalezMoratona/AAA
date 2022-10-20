@@ -49,9 +49,9 @@ update_status ModuleRender::Update()
 	SDL_Rect rect;
 	rect.x = 0;
 	rect.y = 0;
-	rect.w = 640;
-	rect.h = 480;
-	Blit(App->scene->GetTexture(), 40, 0, &rect);
+	rect.w = 912;
+	rect.h = 872;
+	Blit(App->scene->GetTexture(), (App->CAMERA_X), -380, &rect);
 	return UPDATE_CONTINUE;
 }
 

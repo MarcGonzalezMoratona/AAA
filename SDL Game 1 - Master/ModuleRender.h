@@ -19,8 +19,8 @@ public:
 	bool CleanUp();
 
 	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section);
-
-public:
 	SDL_Renderer* renderer = NULL;
+
+private:
 
 };

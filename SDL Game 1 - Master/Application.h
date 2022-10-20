@@ -28,6 +28,7 @@ public:
 	ModuleTextures* textures;
 	ModuleInput* input;
 	ModuleScene* scene;
+	int CAMERA_X = -70;
 
 private:
 

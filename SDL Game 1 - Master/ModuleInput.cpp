@@ -36,6 +36,9 @@ update_status ModuleInput::Update()
 	// TODO 1: Make the application properly close when ESC is pressed (do not use exit())
 	if (keyboard[SDL_SCANCODE_ESCAPE]) return UPDATE_STOP;
 
+	if (keyboard[SDL_SCANCODE_RIGHT] && App->CAMERA_X > -200) --App->CAMERA_X;
+	if (keyboard[SDL_SCANCODE_LEFT] && App->CAMERA_X < -70) ++App->CAMERA_X;
+
 	return UPDATE_CONTINUE;
 }
 
