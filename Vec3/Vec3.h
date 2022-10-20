@@ -10,11 +10,11 @@ private:
 
 public:
 	Vec3();
-	Vec3(T x, T y, T z);
-	// Vec3(Vec3<T>& v);
-	T getX();
-	T getY();
-	T getZ();
+	Vec3(const T x, const T y, const T z);
+	Vec3(const Vec3<T>& v);
+	T getX() const;
+	T getY() const;
+	T getZ() const;
     void setX(T x);
 	void setY(T y);
 	void setZ(T z);
