@@ -2,7 +2,7 @@
 #include "Vec3.cpp"
 using namespace std;
 
-int main() {
+void main() {
 	Vec3<float> v1(7, 6, 4);
 	Vec3<float> v2(2, 1, 3);
 	cout << "Initial values:" << endl;
