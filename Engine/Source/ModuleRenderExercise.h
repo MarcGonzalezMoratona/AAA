@@ -2,10 +2,6 @@
 #include "Module.h"
 #include "Globals.h"
 
-struct SDL_Texture;
-struct SDL_Renderer;
-struct SDL_Rect;
-
 class ModuleRenderExercise : public Module
 {
 public:
@@ -17,8 +13,13 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
-	void WindowResized(unsigned width, unsigned height);
+	unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);
 
 private:
-	void* context;
+	char* LoadShaderSource(const char* shader_file_name);
+
+	unsigned vbo = 0;
+	unsigned program = 0;
+
 };
+

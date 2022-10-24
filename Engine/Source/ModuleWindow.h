@@ -15,9 +15,10 @@ public:
 	bool Init();
 	bool CleanUp();
 
-public:
 	SDL_Window* window = NULL;
 	SDL_Surface* screen_surface = NULL;
+
+private:
 };
 
 #endif // __ModuleWindow_H__

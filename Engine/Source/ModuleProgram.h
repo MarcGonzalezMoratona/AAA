@@ -13,6 +13,11 @@ public:
 	update_status Update();
 
 	bool CleanUp();
+	unsigned CompileShader(unsigned type, const char* source);
+
+
+	unsigned vertexShader;
+	unsigned fragmentShader;
 
 private:
 

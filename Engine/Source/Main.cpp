@@ -9,7 +9,7 @@
 
 enum main_states
 {
-	MAIN_CREATION,  
+	MAIN_CREATION,
 	MAIN_START,
 	MAIN_UPDATE,
 	MAIN_FINISH,
@@ -18,7 +18,7 @@ enum main_states
 
 Application* App = NULL;
 
-int main(int argc, char ** argv)
+int main(int argc, char** argv)
 {
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
@@ -63,7 +63,7 @@ int main(int argc, char ** argv)
 			if (update_return == UPDATE_STOP)
 				state = MAIN_FINISH;
 		}
-			break;
+		break;
 
 		case MAIN_FINISH:
 

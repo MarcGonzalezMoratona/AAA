@@ -7,7 +7,7 @@ typedef unsigned __int8 Uint8;
 class ModuleInput : public Module
 {
 public:
-	
+
 	ModuleInput();
 	~ModuleInput();
 
@@ -16,5 +16,5 @@ public:
 	bool CleanUp();
 
 private:
-	const Uint8 *keyboard = NULL;
+	const Uint8* keyboard = NULL;
 };
