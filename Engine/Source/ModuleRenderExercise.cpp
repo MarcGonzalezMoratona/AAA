@@ -2,8 +2,11 @@
 #include "Application.h"
 #include "ModuleRenderExercise.h"
 #include "ModuleProgram.h"
+#include "ModuleDebugDraw.h"
 #include "SDL.h"
 #include "GL/glew.h"
+#include "../Source/MathGeoLib/Geometry/Frustum.h"
+#include "debugdraw.h"
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
@@ -49,7 +52,7 @@ unsigned ModuleRenderExercise::CreateProgram(unsigned vtx_shader, unsigned frg_s
 			int written = 0;
 			char* info = (char*)malloc(len);
 			glGetProgramInfoLog(program_id, len, &written, info);
-			LOG("Program Log Info: %s", info);
+			DEBUGLOG("Program Log Info: %s", info);
 			free(info);
 		}
 	}
@@ -61,7 +64,7 @@ unsigned ModuleRenderExercise::CreateProgram(unsigned vtx_shader, unsigned frg_s
 bool ModuleRenderExercise::Init()
 {
 
-	LOG("Creating render exercise");
+	DEBUGLOG("Creating render exercise");
 	float vtx_data[] = { -1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f };
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -78,17 +81,39 @@ bool ModuleRenderExercise::Init()
 
 update_status ModuleRenderExercise::PreUpdate()
 {
-
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleRenderExercise::Update()
 {
+	float4x4 model = float4x4::FromTRS(
+		float3(2.0f, 0.0f, 0.0f),
+		float4x4::RotateZ(pi / 4.0f),
+		float3(2.0f, 1.0f, 0.0f));
+	
+	float4x4 view = float4x4::LookAt(float3(0.0f,0.0f,-1.0f), float3(0.0f, 4.0f, 8.0f), float3::unitY, float3::unitY);
+	
+	Frustum frustum;
+	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
+	frustum.SetPos(float3::zero);
+	frustum.SetFront(-float3::unitZ);
+	frustum.SetUp(float3::unitY);
+	frustum.SetViewPlaneDistances(0.1f, 100.0f);
+	frustum.SetPerspective(math::pi / 4.0f, 2.f * atanf(tanf(frustum.VerticalFov() * 0.5f) * SCREEN_WIDTH/SCREEN_HEIGHT));
+	float4x4 proj = frustum.ProjectionMatrix();
+
+	dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
+	dd::xzSquareGrid(-10, 10, 0.0f, 1.0f, dd::colors::Gray);
+
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glUseProgram(program);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glUniformMatrix4fv(0, 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
+	glUniformMatrix4fv(2, 1, GL_TRUE, &proj[0][0]);
+	App->debugDraw->Draw(view, proj, SCREEN_WIDTH, SCREEN_HEIGHT);
+	//glDrawArrays(GL_TRIANGLES, 0, 3);
 
 	return UPDATE_CONTINUE;
 }
@@ -100,7 +125,7 @@ update_status ModuleRenderExercise::PostUpdate()
 
 bool ModuleRenderExercise::CleanUp()
 {
-	LOG("Destroying render exercise");
+	DEBUGLOG("Destroying render exercise");
 	glDeleteBuffers(1, &vbo);
 
 	return true;

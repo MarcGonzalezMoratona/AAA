@@ -12,7 +12,7 @@ ModuleProgram::~ModuleProgram()
 
 bool ModuleProgram::Init()
 {
-    LOG("Init shader loader program");
+    DEBUGLOG("Init shader loader program");
     return true;
 }
 
@@ -23,7 +23,7 @@ update_status ModuleProgram::Update()
 
 bool ModuleProgram::CleanUp()
 {
-    LOG("Destroying program");
+    DEBUGLOG("Destroying program");
     return true;
 }
 
@@ -44,7 +44,7 @@ unsigned ModuleProgram::CompileShader(unsigned type, const char* source)
             int written = 0;
             char* info = (char*)malloc(len);
             glGetShaderInfoLog(shader_id, len, &written, info);
-            LOG("Log Info: %s", info);
+            DEBUGLOG("Log Info: %s", info);
             free(info);
         }
     }
