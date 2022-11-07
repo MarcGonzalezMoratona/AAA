@@ -84,36 +84,38 @@ update_status ModuleRenderExercise::PreUpdate()
 	return UPDATE_CONTINUE;
 }
 
+
 update_status ModuleRenderExercise::Update()
 {
 	float4x4 model = float4x4::FromTRS(
-		float3(2.0f, 0.0f, 0.0f),
-		float4x4::RotateZ(pi / 4.0f),
-		float3(2.0f, 1.0f, 0.0f));
-	
-	float4x4 view = float4x4::LookAt(float3(0.0f,0.0f,-1.0f), float3(0.0f, 4.0f, 8.0f), float3::unitY, float3::unitY);
-	
+		float3(0.0f, 0.0f, 0.0f),
+		float4x4::RotateZ(math::pi/4.0f),
+		float3(1.0f, 1.0f, 1.0f));
+
 	Frustum frustum;
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	frustum.SetPos(float3::zero);
+	frustum.SetViewPlaneDistances(0.1f, 100.0f);
+	frustum.SetPerspective(2.f * atanf(tanf(math::pi / 4.0f * 0.5f) * SCREEN_WIDTH / SCREEN_HEIGHT), math::pi / 4.0f);
+
+	frustum.SetPos(float3(0.0f, 1.0f, 8.0f));
 	frustum.SetFront(-float3::unitZ);
 	frustum.SetUp(float3::unitY);
-	frustum.SetViewPlaneDistances(0.1f, 100.0f);
-	frustum.SetPerspective(math::pi / 4.0f, 2.f * atanf(tanf(frustum.VerticalFov() * 0.5f) * SCREEN_WIDTH/SCREEN_HEIGHT));
+	float4x4 view = frustum.ViewMatrix();
 	float4x4 proj = frustum.ProjectionMatrix();
 
-	dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
-	dd::xzSquareGrid(-10, 10, 0.0f, 1.0f, dd::colors::Gray);
 
+ 	dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
+	dd::xzSquareGrid(-10, 10, 0.0f, 1.0f, dd::colors::Gray);
+	App->debugDraw->Draw(view, proj, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	glUseProgram(program);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glUseProgram(program);
 	glUniformMatrix4fv(0, 1, GL_TRUE, &model[0][0]);
 	glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(2, 1, GL_TRUE, &proj[0][0]);
-	App->debugDraw->Draw(view, proj, SCREEN_WIDTH, SCREEN_HEIGHT);
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 
 	return UPDATE_CONTINUE;
 }
