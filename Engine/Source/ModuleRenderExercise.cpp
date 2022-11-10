@@ -66,7 +66,14 @@ bool ModuleRenderExercise::Init()
 {
 
 	DEBUGLOG("Creating render exercise");
-	float vtx_data[] = { -1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f };
+	float vtx_data[] = { 
+		0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+	};
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
@@ -90,7 +97,7 @@ update_status ModuleRenderExercise::Update()
 {
 	float4x4 model = float4x4::FromTRS(
 		float3(0.0f, 0.0f, 0.0f),
-		float4x4::RotateZ(math::pi/4.0f),
+		float4x4::RotateZ(0),
 		float3(1.0f, 1.0f, 1.0f));
 
 	Frustum frustum;
@@ -116,7 +123,7 @@ update_status ModuleRenderExercise::Update()
 	glUniformMatrix4fv(0, 1, GL_TRUE, &model[0][0]);
 	glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(2, 1, GL_TRUE, &proj[0][0]);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	return UPDATE_CONTINUE;
 }

@@ -15,7 +15,6 @@ ModuleCamera::~ModuleCamera()
 // Called before render is available
 bool ModuleCamera::Init()
 {
-
 	return true;
 }
 
@@ -33,8 +32,8 @@ update_status ModuleCamera::Update()
 	if (App->input->keyboard[SDL_SCANCODE_A]) posX -= 0.01f * speed;
 	if (App->input->keyboard[SDL_SCANCODE_S]) posZ += 0.01f * speed;
 	if (App->input->keyboard[SDL_SCANCODE_W]) posZ -= 0.01f * speed;
-	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) speed = 15.0f;
-	else speed = 5.0f;
+	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) speed = 3.0f;
+	else speed = 1.0f;
 
 	return UPDATE_CONTINUE;
 }
