@@ -3,6 +3,7 @@
 #include "ModuleRenderExercise.h"
 #include "ModuleProgram.h"
 #include "ModuleDebugDraw.h"
+#include "ModuleCamera.h"
 #include "SDL.h"
 #include "GL/glew.h"
 #include "../Source/MathGeoLib/Geometry/Frustum.h"
@@ -97,7 +98,7 @@ update_status ModuleRenderExercise::Update()
 	frustum.SetViewPlaneDistances(0.1f, 100.0f);
 	frustum.SetPerspective(2.f * atanf(tanf(math::pi / 4.0f * 0.5f) * SCREEN_WIDTH / SCREEN_HEIGHT), math::pi / 4.0f);
 
-	frustum.SetPos(float3(0.0f, 1.0f, 8.0f));
+	frustum.SetPos(float3(App->camera->posX, App->camera->posY, App->camera->posZ));
 	frustum.SetFront(-float3::unitZ);
 	frustum.SetUp(float3::unitY);
 	float4x4 view = frustum.ViewMatrix();
