@@ -42,7 +42,7 @@ update_status ModuleCamera::Update()
 // Called before quitting
 bool ModuleCamera::CleanUp()
 {
-	DEBUGLOG("Destroying SDL window and quitting all SDL systems");
+	DEBUGLOG("Destroying ModuleCamera");
 
 	return true;
 }
