@@ -4,6 +4,7 @@
 #include "ModuleProgram.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleCamera.h"
+#include "ModuleTexture.h"
 #include "SDL.h"
 #include "GL/glew.h"
 #include "../Source/MathGeoLib/Geometry/Frustum.h"
@@ -74,10 +75,22 @@ bool ModuleRenderExercise::Init()
 		1.0f, 1.0f, 0.0f,
 		0.0f, 1.0f, 0.0f,
 	};
+	
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
+	
+	float buffer_data[] = {
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		0.5f, 1.0f 
+	};
 
+
+	//glGenTextures();
+	//glBindTexture(GL_TEXTURE_2D, texture_object);
+	//glTexParameter();
+	//glTexImage2D();
 	char* vertexShaderSource = LoadShaderSource("./Shaders/VertexShader.glsl");
 	char* fragmentShaderSource = LoadShaderSource("./Shaders/FragmentShader.glsl");
 	App->program->vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexShaderSource);
@@ -120,9 +133,13 @@ update_status ModuleRenderExercise::Update()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * 3));
 	glUniformMatrix4fv(0, 1, GL_TRUE, &model[0][0]);
 	glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(2, 1, GL_TRUE, &proj[0][0]);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, App->texture->texture_object);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	return UPDATE_CONTINUE;
@@ -137,6 +154,7 @@ bool ModuleRenderExercise::CleanUp()
 {
 	DEBUGLOG("Destroying render exercise");
 	glDeleteBuffers(1, &vbo);
+	//glDeleteTextures(1, &vbo);
 
 	return true;
 }

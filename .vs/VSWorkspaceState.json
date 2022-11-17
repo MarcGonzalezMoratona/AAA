@@ -2,8 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\Engine",
-    "\\Engine\\Source",
-    "\\Engine\\Source\\DirectXTex-oct2022"
+    "\\Engine\\Source"
   ],
   "SelectedNode": "\\Engine\\Source\\Engine.sln",
   "PreviewInSolutionExplorer": false

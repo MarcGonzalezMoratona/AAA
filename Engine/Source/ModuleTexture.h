@@ -16,6 +16,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	GLuint texture_object;
+
 private:
 };
 
