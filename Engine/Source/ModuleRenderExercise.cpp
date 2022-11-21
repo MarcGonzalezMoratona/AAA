@@ -9,6 +9,11 @@
 #include "GL/glew.h"
 #include "../Source/MathGeoLib/Geometry/Frustum.h"
 #include "debugdraw.h"
+#include "DirectXTex.h"
+
+using namespace DirectX;
+using namespace std;
+using namespace dd;
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
@@ -18,84 +23,69 @@ ModuleRenderExercise::~ModuleRenderExercise()
 {
 }
 
-char* ModuleRenderExercise::LoadShaderSource(const char* shader_file_name)
-{
-	char* data = nullptr;
-	FILE* file = nullptr;
-	fopen_s(&file, shader_file_name, "rb");
-	if (file)
-	{
-		fseek(file, 0, SEEK_END);
-		int size = ftell(file);
-		data = (char*)malloc(size + 1);
-		fseek(file, 0, SEEK_SET);
-		fread(data, 1, size, file);
-		data[size] = 0;
-		fclose(file);
 
-	}
-	return data;
-}
-
-unsigned ModuleRenderExercise::CreateProgram(unsigned vtx_shader, unsigned frg_shader)
-{
-	unsigned program_id = glCreateProgram();
-	glAttachShader(program_id, vtx_shader);
-	glAttachShader(program_id, frg_shader);
-	glLinkProgram(program_id);
-	int res;
-	glGetProgramiv(program_id, GL_LINK_STATUS, &res);
-	if (res == GL_FALSE)
-	{
-		int len = 0;
-		glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &len);
-		if (len > 0)
-		{
-			int written = 0;
-			char* info = (char*)malloc(len);
-			glGetProgramInfoLog(program_id, len, &written, info);
-			DEBUGLOG("Program Log Info: %s", info);
-			free(info);
-		}
-	}
-	glDeleteShader(vtx_shader);
-	glDeleteShader(frg_shader);
-	return program_id;
-}
 
 bool ModuleRenderExercise::Init()
 {
 
 	DEBUGLOG("Creating render exercise");
+
+	char* vertexShaderSource = App->program->LoadShaderSource("./Shaders/VertexShader.glsl");
+	char* fragmentShaderSource = App->program->LoadShaderSource("./Shaders/FragmentShader.glsl");
+	App->program->vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexShaderSource);
+	App->program->fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
+	program = App->program->CreateProgram(App->program->vertexShader, App->program->fragmentShader);
+
 	float vtx_data[] = { 
-		0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
 	};
-	
+
+	unsigned int triangles[] = {
+		0, 1, 3,
+		3, 2, 0
+	};
+
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
+
+	glGenBuffers(1, &ebo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(triangles), triangles, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	glEnable(GL_TEXTURE_2D);
+
+	glGenTextures(1, &tbo);
+	glBindTexture(GL_TEXTURE_2D, tbo);
 	
-	float buffer_data[] = {
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-		0.5f, 1.0f 
-	};
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
+	ScratchImage srcImg;
+	ScratchImage image = App->texture->LoadTexture(L"textures/Baboon.ppm", nullptr, srcImg);
+	
+	GLint internalFormat, format, type;
+	TexMetadata metadata = image.GetMetadata();
 
-
-	//glGenTextures();
-	//glBindTexture(GL_TEXTURE_2D, texture_object);
-	//glTexParameter();
-	//glTexImage2D();
-	char* vertexShaderSource = LoadShaderSource("./Shaders/VertexShader.glsl");
-	char* fragmentShaderSource = LoadShaderSource("./Shaders/FragmentShader.glsl");
-	App->program->vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexShaderSource);
-	App->program->fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
-	program = CreateProgram(App->program->vertexShader, App->program->fragmentShader);
+	App->texture->LoadMetadata(metadata, internalFormat, format, type);
+	
+	glTexImage2D(GL_TEXTURE_2D,0, internalFormat, metadata.width, metadata.height, 0, format, type, image.GetPixels());
+	glGenerateMipmap(GL_TEXTURE_2D);
 
 	return true;
 }
@@ -124,23 +114,21 @@ update_status ModuleRenderExercise::Update()
 	float4x4 view = frustum.ViewMatrix();
 	float4x4 proj = frustum.ProjectionMatrix();
 
-
- 	dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
-	dd::xzSquareGrid(-10, 10, 0.0f, 1.0f, dd::colors::Gray);
+ 	axisTriad(float4x4::identity, 0.1f, 1.0f);
+	xzSquareGrid(-10, 10, 0.0f, 1.0f, colors::Gray);
 	App->debugDraw->Draw(view, proj, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	glUseProgram(program);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * 3));
+
 	glUniformMatrix4fv(0, 1, GL_TRUE, &model[0][0]);
 	glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(2, 1, GL_TRUE, &proj[0][0]);
+
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, App->texture->texture_object);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindTexture(GL_TEXTURE_2D, tbo);
+	glBindVertexArray(vao);
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 	return UPDATE_CONTINUE;
 }
@@ -153,9 +141,11 @@ update_status ModuleRenderExercise::PostUpdate()
 bool ModuleRenderExercise::CleanUp()
 {
 	DEBUGLOG("Destroying render exercise");
+	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo);
-	//glDeleteTextures(1, &vbo);
-
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &ebo);
+	glDeleteTextures(1, &tbo);
 	return true;
 }
 
