@@ -23,8 +23,6 @@ ModuleRenderExercise::~ModuleRenderExercise()
 {
 }
 
-
-
 bool ModuleRenderExercise::Init()
 {
 
@@ -100,19 +98,19 @@ update_status ModuleRenderExercise::Update()
 {
 	float4x4 model = float4x4::FromTRS(
 		float3(0.0f, 0.0f, 0.0f),
-		float4x4::RotateZ(0),
+		float4x4::RotateX(0),
 		float3(1.0f, 1.0f, 1.0f));
 
-	Frustum frustum;
-	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	frustum.SetViewPlaneDistances(0.1f, 100.0f);
-	frustum.SetPerspective(2.f * atanf(tanf(math::pi / 4.0f * 0.5f) * SCREEN_WIDTH / SCREEN_HEIGHT), math::pi / 4.0f);
+	App->camera->SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
+	App->camera->SetDistance(0.1f, 100.0f);
+	App->camera->SetPerspective(2.f * atanf(tanf(math::pi / 4.0f * 0.5f) * SCREEN_WIDTH / SCREEN_HEIGHT), math::pi / 4.0f);
 
-	frustum.SetPos(float3(App->camera->posX, App->camera->posY, App->camera->posZ));
-	frustum.SetFront(-float3::unitZ);
-	frustum.SetUp(float3::unitY);
-	float4x4 view = frustum.ViewMatrix();
-	float4x4 proj = frustum.ProjectionMatrix();
+	App->camera->SetPos(float3(App->camera->posX, App->camera->posY, App->camera->posZ));
+	App->camera->SetFront(-float3::unitZ);
+	App->camera->SetUp(float3::unitY);
+
+	float4x4 view = App->camera->ViewMatrix();
+	float4x4 proj = App->camera->ProjectionMatrix();
 
  	axisTriad(float4x4::identity, 0.1f, 1.0f);
 	xzSquareGrid(-10, 10, 0.0f, 1.0f, colors::Gray);

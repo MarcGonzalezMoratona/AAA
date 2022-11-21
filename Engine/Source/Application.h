@@ -37,7 +37,6 @@ public:
 	ModuleTexture* texture = nullptr;
 
 private:
-
 	std::list<Module*> modules;
 
 };

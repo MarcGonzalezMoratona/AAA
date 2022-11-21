@@ -17,7 +17,6 @@ public:
 	unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);
 	char* LoadShaderSource(const char* shader_file_name);
 
-
 	unsigned vertexShader;
 	unsigned fragmentShader;
 
