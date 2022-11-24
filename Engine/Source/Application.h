@@ -3,6 +3,7 @@
 #include<list>
 #include "Globals.h"
 #include "Module.h"
+#include "Timer.h"
 
 class ModuleRender;
 class ModuleWindow;
@@ -36,8 +37,14 @@ public:
 	ModuleCamera* camera = nullptr;
 	ModuleTexture* texture = nullptr;
 
+	float delta_time;
 private:
+
+	Timer ms_timer;
 	std::list<Module*> modules;
+
+	void PreUpdate();
+	void PostUpdate();
 
 };
 

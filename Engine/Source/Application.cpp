@@ -44,6 +44,7 @@ bool Application::Init()
 
 bool Application::Start()
 {
+
 	bool ret = true;
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
@@ -52,9 +53,15 @@ bool Application::Start()
 	return ret;
 }
 
+void Application::PreUpdate() {
+	delta_time = (float)ms_timer.Read() / 1000.0f;
+	ms_timer.Start();
+}
+
 update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
+	PreUpdate();
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->PreUpdate();
@@ -65,7 +72,13 @@ update_status Application::Update()
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->PostUpdate();
 
+	PostUpdate();
 	return ret;
+}
+
+
+void Application::PostUpdate() {
+
 }
 
 bool Application::CleanUp()
