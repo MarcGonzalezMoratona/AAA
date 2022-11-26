@@ -54,6 +54,7 @@
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
     <ClCompile Include="ModuleCamera.cpp" />
     <ClCompile Include="ModuleTexture.cpp" />
+    <ClCompile Include="ModuleEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -145,6 +146,7 @@
     <ClInclude Include="MathGeoLib\MathGeoLibFwd.h" />
     <ClInclude Include="ModuleCamera.h" />
     <ClInclude Include="ModuleTexture.h" />
+    <ClInclude Include="ModuleEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Geometry\KDTree.inl" />
