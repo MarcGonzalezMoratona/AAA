@@ -26,9 +26,7 @@ bool ModuleTimer::Start()
 update_status ModuleTimer::Update()
 {
 	Uint32 currentTime = SDL_GetTicks();
-
-	delta_time = (float)currentTime - lastTime / 1000.0f;
-
+	delta_time = (float)(currentTime - lastTime) / 1000.0f;
 	lastTime = currentTime;
 	return UPDATE_CONTINUE;
 }

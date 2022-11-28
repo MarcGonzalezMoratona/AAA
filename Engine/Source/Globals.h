@@ -27,4 +27,5 @@ enum update_status
 #define BORDERLESS false
 #define RESIZABLE true
 #define VSYNC true
-#define TITLE "Super Awesome Engine"
+#define MAX_FPS 60
+#define TITLE "LEGO Engine"
