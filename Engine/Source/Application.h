@@ -14,6 +14,7 @@ class ModuleDebugDraw;
 class ModuleCamera;
 class ModuleTexture;
 class ModuleEditor;
+class ModuleTimer;
 
 class Application
 {
@@ -37,8 +38,10 @@ public:
 	ModuleCamera* camera = nullptr;
 	ModuleTexture* texture = nullptr;
 	ModuleEditor* editor = nullptr;
+	ModuleTimer* timer = nullptr;
 
 private:
+
 	std::list<Module*> modules;
 
 };

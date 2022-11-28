@@ -13,9 +13,18 @@ enum update_status
 	UPDATE_ERROR
 };
 
+// Constants -----------
+#define DEGTORAD 0.01745329251f
+#define RADTODEG 1.0f / DEGTORAD
+#define MAX_FPS 60
+#define MIN_FPS 10
+
 // Configuration -----------
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define GLSL_VERSION "#version 440"
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
 #define FULLSCREEN false
+#define BORDERLESS false
+#define RESIZABLE true
 #define VSYNC true
 #define TITLE "Super Awesome Engine"

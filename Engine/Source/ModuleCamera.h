@@ -18,6 +18,7 @@ public:
 	bool CleanUp();
 	//void drawAxis();
 
+	void SetAspectRatio(float h, float w);
 	void SetDistance(float nearPlane, float farPlane);
 	void SetKind(FrustumProjectiveSpace projectiveSpace, FrustumHandedness handedness);
 	void SetPerspective(float height, float width);
@@ -29,7 +30,7 @@ public:
 
 	float posX = 0.0f, posY = 1.0f, posZ = 8.0f;
 	float rotX = 0.0f, rotY = 0.0f, rotZ = 0.0f;
-	float speed = 5.0f;
+	float speed = 3.0f;
 
 private:
 	Frustum frustum;

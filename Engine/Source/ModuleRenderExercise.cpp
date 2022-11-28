@@ -28,12 +28,6 @@ bool ModuleRenderExercise::Init()
 
 	DEBUGLOG("Creating render exercise");
 
-	char* vertexShaderSource = App->program->LoadShaderSource("./Shaders/VertexShader.glsl");
-	char* fragmentShaderSource = App->program->LoadShaderSource("./Shaders/FragmentShader.glsl");
-	App->program->vertexShader = App->program->CompileShader(GL_VERTEX_SHADER, vertexShaderSource);
-	App->program->fragmentShader = App->program->CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
-	program = App->program->CreateProgram(App->program->vertexShader, App->program->fragmentShader);
-
 	float vtx_data[] = { 
 		0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
@@ -116,7 +110,7 @@ update_status ModuleRenderExercise::Update()
 	xzSquareGrid(-10, 10, 0.0f, 1.0f, colors::Gray);
 	App->debugDraw->Draw(view, proj, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	glUseProgram(program);
+	glUseProgram(App->program->program);
 
 	glUniformMatrix4fv(0, 1, GL_TRUE, &model[0][0]);
 	glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
@@ -139,7 +133,7 @@ update_status ModuleRenderExercise::PostUpdate()
 bool ModuleRenderExercise::CleanUp()
 {
 	DEBUGLOG("Destroying render exercise");
-	glDeleteProgram(program);
+	glDeleteProgram(App->program->program);
 	glDeleteBuffers(1, &vbo);
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &ebo);

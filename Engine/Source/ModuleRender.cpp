@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
+#include "ModuleCamera.h"
 #include "SDL.h"
 #include "GL/glew.h"
 
@@ -59,7 +60,7 @@ bool ModuleRender::Init()
 
 	DEBUGLOG("Creating Renderer context");
 
-	SDL_GL_CreateContext(App->window->window);
+	context = SDL_GL_CreateContext(App->window->window);
 
 	GLenum err = glewInit();
 
@@ -123,5 +124,6 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
+	App->camera->SetAspectRatio(float(width), float(height));
 }
 

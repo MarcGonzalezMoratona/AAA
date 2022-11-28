@@ -13,6 +13,7 @@ ModuleProgram::~ModuleProgram()
 bool ModuleProgram::Init()
 {
     DEBUGLOG("Init shader loader program");
+    CreateProgram();
     return true;
 }
 
@@ -46,11 +47,17 @@ char* ModuleProgram::LoadShaderSource(const char* shader_file_name)
     return data;
 }
 
-unsigned ModuleProgram::CreateProgram(unsigned vtx_shader, unsigned frg_shader)
+void ModuleProgram::CreateProgram()
 {
+
+    char* vertexShaderSource = LoadShaderSource("./Shaders/VertexShader.glsl");
+    char* fragmentShaderSource = LoadShaderSource("./Shaders/FragmentShader.glsl");
+    vertexShader = CompileShader(GL_VERTEX_SHADER, vertexShaderSource);
+    fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
+
     unsigned program_id = glCreateProgram();
-    glAttachShader(program_id, vtx_shader);
-    glAttachShader(program_id, frg_shader);
+    glAttachShader(program_id, vertexShader);
+    glAttachShader(program_id, fragmentShader);
     glLinkProgram(program_id);
     int res;
     glGetProgramiv(program_id, GL_LINK_STATUS, &res);
@@ -67,9 +74,9 @@ unsigned ModuleProgram::CreateProgram(unsigned vtx_shader, unsigned frg_shader)
             free(info);
         }
     }
-    glDeleteShader(vtx_shader);
-    glDeleteShader(frg_shader);
-    return program_id;
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+    program = program_id;
 }
 
 

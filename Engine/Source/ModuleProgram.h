@@ -13,14 +13,14 @@ public:
 	update_status Update();
 
 	bool CleanUp();
-	unsigned CompileShader(unsigned type, const char* source);
-	unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);
-	char* LoadShaderSource(const char* shader_file_name);
-
-	unsigned vertexShader;
-	unsigned fragmentShader;
+	void CreateProgram();
+	unsigned program=0;
 
 private:
+	char* LoadShaderSource(const char* shader_file_name);
+	unsigned CompileShader(unsigned type, const char* source);
+	unsigned vertexShader;
+	unsigned fragmentShader;
 
 };
 

@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
+#include "ModuleTimer.h"
 
 ModuleCamera::ModuleCamera()
 {
@@ -24,20 +25,24 @@ update_status ModuleCamera::Update()
 	SDL_PumpEvents();
 	if (App->input->keyboard[SDL_SCANCODE_ESCAPE]) return UPDATE_STOP;
 
-	if (App->input->keyboard[SDL_SCANCODE_E]) posY += 0.01f * speed;
-	if (App->input->keyboard[SDL_SCANCODE_Q]) posY -= 0.01f * speed;
-	if (App->input->keyboard[SDL_SCANCODE_D]) posX += 0.01f * speed;
-	if (App->input->keyboard[SDL_SCANCODE_A]) posX -= 0.01f * speed;
-	if (App->input->keyboard[SDL_SCANCODE_S]) posZ += 0.01f * speed;
-	if (App->input->keyboard[SDL_SCANCODE_W]) posZ -= 0.01f * speed;
-	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) speed = 3.0f;
-	if (App->input->keyboard[SDL_SCANCODE_UP]) rotX += 0.01f * speed;
-	if (App->input->keyboard[SDL_SCANCODE_DOWN]) rotX -= 0.01f * speed;
-	if (App->input->keyboard[SDL_SCANCODE_RIGHT]) rotZ += 0.01f * speed;
-	if (App->input->keyboard[SDL_SCANCODE_LEFT]) rotZ -= 0.01f * speed;
-	else speed = 1.0f;
+	if (App->input->keyboard[SDL_SCANCODE_E]) posY += speed * App->timer->delta_time;
+	if (App->input->keyboard[SDL_SCANCODE_Q]) posY -= speed * App->timer->delta_time;
+	if (App->input->keyboard[SDL_SCANCODE_D]) posX += speed * App->timer->delta_time;
+	if (App->input->keyboard[SDL_SCANCODE_A]) posX -= speed * App->timer->delta_time;
+	if (App->input->keyboard[SDL_SCANCODE_S]) posZ += speed * App->timer->delta_time;
+	if (App->input->keyboard[SDL_SCANCODE_W]) posZ -= speed * App->timer->delta_time;
+	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) speed = 8.0f;
+	//if (App->input->keyboard[SDL_SCANCODE_UP]) rotX += 0.01f * speed;
+	//if (App->input->keyboard[SDL_SCANCODE_DOWN]) rotX -= 0.01f * speed;
+	//if (App->input->keyboard[SDL_SCANCODE_RIGHT]) rotZ += 0.01f * speed;
+	//if (App->input->keyboard[SDL_SCANCODE_LEFT]) rotZ -= 0.01f * speed;
+	else speed = 3.0f;
 
 	return UPDATE_CONTINUE;
+}
+
+void ModuleCamera::SetAspectRatio(float w, float h) {
+	frustum.SetHorizontalFovAndAspectRatio(frustum.HorizontalFov(), w / h);
 }
 
 void ModuleCamera::SetDistance(float nearPlane, float farPlane) {

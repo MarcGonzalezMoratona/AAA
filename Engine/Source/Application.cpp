@@ -9,6 +9,7 @@
 #include "ModuleCamera.h"
 #include "ModuleTexture.h"
 #include "ModuleEditor.h"
+#include "ModuleTimer.h"
 
 using namespace std;
 
@@ -16,14 +17,15 @@ Application::Application()
 {
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(window = new ModuleWindow());
+	modules.push_back(timer = new ModuleTimer());
 	modules.push_back(renderer = new ModuleRender());
-	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(program = new ModuleProgram());
 	modules.push_back(renderExercise = new ModuleRenderExercise());
 	modules.push_back(debugDraw = new ModuleDebugDraw());
 	modules.push_back(camera = new ModuleCamera());
 	modules.push_back(texture = new ModuleTexture());
+	modules.push_back(editor = new ModuleEditor());
 }
 
 Application::~Application()
@@ -46,6 +48,7 @@ bool Application::Init()
 
 bool Application::Start()
 {
+
 	bool ret = true;
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
@@ -53,6 +56,7 @@ bool Application::Start()
 
 	return ret;
 }
+
 
 update_status Application::Update()
 {
@@ -69,6 +73,7 @@ update_status Application::Update()
 
 	return ret;
 }
+
 
 bool Application::CleanUp()
 {
