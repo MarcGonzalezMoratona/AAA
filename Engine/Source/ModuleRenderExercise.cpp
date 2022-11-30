@@ -79,6 +79,12 @@ bool ModuleRenderExercise::Init()
 	glTexImage2D(GL_TEXTURE_2D,0, internalFormat, metadata.width, metadata.height, 0, format, type, image.GetPixels());
 	glGenerateMipmap(GL_TEXTURE_2D);
 
+	App->camera->SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
+	App->camera->SetDistance(0.1f, 100.0f);
+	App->camera->SetPerspective(2.f * atanf(tanf(math::pi / 4.0f * 0.5f) * SCREEN_WIDTH / SCREEN_HEIGHT), math::pi / 4.0f);
+
+	App->camera->SetFront(-float3::unitZ);
+	App->camera->SetUp(float3::unitY);
 	return true;
 }
 
@@ -94,14 +100,7 @@ update_status ModuleRenderExercise::Update()
 		float3(0.0f, 0.0f, 0.0f),
 		float4x4::RotateX(0),
 		float3(1.0f, 1.0f, 1.0f));
-
-	App->camera->SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	App->camera->SetDistance(0.1f, 100.0f);
-	App->camera->SetPerspective(2.f * atanf(tanf(math::pi / 4.0f * 0.5f) * SCREEN_WIDTH / SCREEN_HEIGHT), math::pi / 4.0f);
-
 	App->camera->SetPos(float3(App->camera->posX, App->camera->posY, App->camera->posZ));
-	App->camera->SetFront(-float3::unitZ);
-	App->camera->SetUp(float3::unitY);
 
 	float4x4 view = App->camera->ViewMatrix();
 	float4x4 proj = App->camera->ProjectionMatrix();

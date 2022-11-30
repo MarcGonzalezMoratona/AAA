@@ -14,6 +14,7 @@ public:
 	ModuleCamera();
 	virtual ~ModuleCamera();
 	bool Init();
+	bool Start();
 	update_status Update();
 	bool CleanUp();
 	//void drawAxis();
@@ -25,12 +26,13 @@ public:
 	void SetPos(math::vec pos);
 	void SetFront(math::vec front);
 	void SetUp(math::vec up);
+	void Rotate(const float3x3& rotationMatrix);
 	float4x4 ViewMatrix();
 	float4x4 ProjectionMatrix();
 
 	float posX = 0.0f, posY = 1.0f, posZ = 8.0f;
-	float rotX = 0.0f, rotY = 0.0f, rotZ = 0.0f;
-	float speed = 3.0f;
+	float movementSpeed = 3.0f;
+	float rotationSpeed = 1.0f;
 
 private:
 	Frustum frustum;
