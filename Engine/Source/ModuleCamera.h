@@ -27,12 +27,15 @@ public:
 	void SetFront(math::vec front);
 	void SetUp(math::vec up);
 	void Rotate(const float3x3& rotationMatrix);
+	void Move(const float3& direction);
+	void Zoom(const float3& direction, int wheel);
 	float4x4 ViewMatrix();
 	float4x4 ProjectionMatrix();
 
 	float posX = 0.0f, posY = 1.0f, posZ = 8.0f;
-	float movementSpeed = 3.0f;
-	float rotationSpeed = 1.0f;
+	float movementSpeed = 10.0f;
+	float rotationSpeed = 12.0f;
+	float zoomSpeed = 14.0f;
 
 private:
 	Frustum frustum;

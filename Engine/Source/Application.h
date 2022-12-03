@@ -40,6 +40,9 @@ public:
 	ModuleEditor* editor = nullptr;
 	ModuleTimer* timer = nullptr;
 
+	char engineName[25] = "LEGO engine";
+	char organization[25] = "";
+
 private:
 
 	std::list<Module*> modules;

@@ -17,15 +17,8 @@ enum update_status
 #define DEGTORAD 0.01745329251f
 #define RADTODEG 1.0f / DEGTORAD
 #define MAX_FPS 60
-#define MIN_FPS 10
+#define MIN_FPS 0
 
 // Configuration -----------
 #define GLSL_VERSION "#version 440"
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
-#define FULLSCREEN false
-#define BORDERLESS false
-#define RESIZABLE true
 #define VSYNC true
-#define MAX_FPS 60
-#define TITLE "LEGO Engine"

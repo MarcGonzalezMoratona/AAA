@@ -5,6 +5,7 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleCamera.h"
 #include "ModuleTexture.h"
+#include "ModuleWindow.h"
 #include "SDL.h"
 #include "GL/glew.h"
 #include "../Source/MathGeoLib/Geometry/Frustum.h"
@@ -81,7 +82,8 @@ bool ModuleRenderExercise::Init()
 
 	App->camera->SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 	App->camera->SetDistance(0.1f, 100.0f);
-	App->camera->SetPerspective(2.f * atanf(tanf(math::pi / 4.0f * 0.5f) * SCREEN_WIDTH / SCREEN_HEIGHT), math::pi / 4.0f);
+	App->camera->SetPerspective(2.f * atanf(tanf(math::pi / 4.0f * 0.5f) * App->window->GetWidth() / App->window->GetHeight()), math::pi / 4.0f);
+	App->camera->SetPos(float3(App->camera->posX, App->camera->posY, App->camera->posZ));
 
 	App->camera->SetFront(-float3::unitZ);
 	App->camera->SetUp(float3::unitY);
@@ -100,14 +102,13 @@ update_status ModuleRenderExercise::Update()
 		float3(0.0f, 0.0f, 0.0f),
 		float4x4::RotateX(0),
 		float3(1.0f, 1.0f, 1.0f));
-	App->camera->SetPos(float3(App->camera->posX, App->camera->posY, App->camera->posZ));
 
 	float4x4 view = App->camera->ViewMatrix();
 	float4x4 proj = App->camera->ProjectionMatrix();
 
  	axisTriad(float4x4::identity, 0.1f, 1.0f);
 	xzSquareGrid(-10, 10, 0.0f, 1.0f, colors::Gray);
-	App->debugDraw->Draw(view, proj, SCREEN_WIDTH, SCREEN_HEIGHT);
+	App->debugDraw->Draw(view, proj, App->window->GetWidth(), App->window->GetHeight());
 
 	glUseProgram(App->program->program);
 

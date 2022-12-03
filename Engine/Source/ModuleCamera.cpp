@@ -34,11 +34,20 @@ bool ModuleCamera::Start()
 }
 
 void ModuleCamera::Rotate(const float3x3& rotationMatrix) {
-	vec oldFront = frustum.Front().Normalized();
-	vec oldUp = frustum.Up().Normalized();
+	float3 oldFront = frustum.Front().Normalized();
+	float3 oldUp = frustum.Up().Normalized();
 	frustum.SetFront(rotationMatrix.MulDir(oldFront));
 	frustum.SetUp(rotationMatrix.MulDir(oldUp));
 }
+
+void ModuleCamera::Move(const float3& direction) {
+	frustum.SetPos(frustum.Pos() + direction * (movementSpeed * App->timer->delta_time));
+}
+
+void ModuleCamera::Zoom(const float3& direction, int wheel) {
+	frustum.SetPos(frustum.Pos() + direction * (zoomSpeed * wheel * App->timer->delta_time));
+}
+
 
 // Called every draw update
 update_status ModuleCamera::Update()
@@ -46,17 +55,30 @@ update_status ModuleCamera::Update()
 	SDL_PumpEvents();
 	if (App->input->keyboard[SDL_SCANCODE_ESCAPE]) return UPDATE_STOP;
 
-	if (App->input->keyboard[SDL_SCANCODE_E]) posY += movementSpeed * App->timer->delta_time;
-	if (App->input->keyboard[SDL_SCANCODE_Q]) posY -= movementSpeed * App->timer->delta_time;
-	if (App->input->keyboard[SDL_SCANCODE_D]) posX += movementSpeed * App->timer->delta_time;
-	if (App->input->keyboard[SDL_SCANCODE_A]) posX -= movementSpeed * App->timer->delta_time;
-	if (App->input->keyboard[SDL_SCANCODE_S]) posZ += movementSpeed * App->timer->delta_time;
-	if (App->input->keyboard[SDL_SCANCODE_W]) posZ -= movementSpeed * App->timer->delta_time;
+	// movement
+	if (App->input->keyboard[SDL_SCANCODE_E]) Move(float3::unitY);
+	if (App->input->keyboard[SDL_SCANCODE_Q]) Move(-float3::unitY);
+	if (App->input->keyboard[SDL_SCANCODE_D]) Move(frustum.WorldRight());
+	if (App->input->keyboard[SDL_SCANCODE_A]) Move(-frustum.WorldRight());
+	if (App->input->keyboard[SDL_SCANCODE_W]) Move(frustum.Front());
+	if (App->input->keyboard[SDL_SCANCODE_S]) Move(-frustum.Front());
+
+	// rotate
+	int mouseX, mouseY;
+	App->input->GetMouseMotion(mouseX, mouseY);
+
+	if (mouseX < 0) Rotate(float3x3::RotateY(-rotationSpeed * DEGTORAD * App->timer->delta_time));
+	if (mouseX > 0) Rotate(float3x3::RotateY(rotationSpeed * DEGTORAD * App->timer->delta_time));
+	if (mouseY > 0) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), rotationSpeed * DEGTORAD * App->timer->delta_time));
+	if (mouseY < 0) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), -rotationSpeed * DEGTORAD * App->timer->delta_time));
+
+	// zoom
+	int wheel;
+	App->input->GetWheel(wheel);
+	if(wheel != 0) Zoom(frustum.Front(), wheel);
+
+	// speed
 	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) movementSpeed = 8.0f;
-	if (App->input->keyboard[SDL_SCANCODE_RIGHT]) Rotate(float3x3::RotateY(-rotationSpeed * DEGTORAD));
-	if (App->input->keyboard[SDL_SCANCODE_LEFT]) Rotate(float3x3::RotateY(rotationSpeed * DEGTORAD));
-	if (App->input->keyboard[SDL_SCANCODE_UP]) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(),rotationSpeed * DEGTORAD));
-	if (App->input->keyboard[SDL_SCANCODE_DOWN]) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(),-rotationSpeed * DEGTORAD));
 	else movementSpeed = 3.0f;
 
 	return UPDATE_CONTINUE;

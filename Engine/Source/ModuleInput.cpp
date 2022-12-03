@@ -12,6 +12,7 @@ ModuleInput::ModuleInput()
 ModuleInput::~ModuleInput()
 {}
 
+
 // Called before render is available
 bool ModuleInput::Init()
 {
@@ -32,7 +33,7 @@ bool ModuleInput::Init()
 update_status ModuleInput::Update()
 {
     SDL_Event sdlEvent;
-
+    wheel = 0;
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
         ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
@@ -44,11 +45,23 @@ update_status ModuleInput::Update()
             if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
                 App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
             break;
+        case SDL_MOUSEMOTION:
+            if (sdlEvent.motion.state == SDL_BUTTON_RMASK) {
+                mouseX = sdlEvent.motion.xrel;
+                mouseY = sdlEvent.motion.yrel;
+            }
+            else {
+                mouseX = 0; 
+                mouseY = 0;
+            }
+            break;
+        case SDL_MOUSEWHEEL:
+            wheel = sdlEvent.wheel.y;
+            break;
         }
+
+        keyboard = SDL_GetKeyboardState(NULL);
     }
-
-    keyboard = SDL_GetKeyboardState(NULL);
-
     return UPDATE_CONTINUE;
 }
 
@@ -58,4 +71,14 @@ bool ModuleInput::CleanUp()
     DEBUGLOG("Quitting SDL input event subsystem");
     SDL_QuitSubSystem(SDL_INIT_EVENTS);
     return true;
+}
+
+
+void ModuleInput::GetMouseMotion(int& x, int& y) {
+    x = mouseX;
+    y = mouseY;
+}
+
+void ModuleInput::GetWheel(int& w) {
+    w = wheel;
 }
