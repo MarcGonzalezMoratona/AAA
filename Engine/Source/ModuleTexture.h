@@ -20,8 +20,10 @@ public:
 
 	ScratchImage LoadTexture(const wchar_t* path, TexMetadata* metadata, ScratchImage& srcImg);
 	void LoadMetadata(TexMetadata metadata, GLint& internalFormat, GLint& format, GLint& type);
+	unsigned Load(const wchar_t* path);
 
 private:
+
 };
 
 #endif // __ModuleTexture_H__

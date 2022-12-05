@@ -29,7 +29,7 @@ bool ModuleRenderExercise::Init()
 
 	DEBUGLOG("Creating render exercise");
 
-	float vtx_data[] = { 
+	/*float vtx_data[] = { 
 		0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
@@ -61,7 +61,7 @@ bool ModuleRenderExercise::Init()
 	glEnable(GL_TEXTURE_2D);
 
 	glGenTextures(1, &tbo);
-	glBindTexture(GL_TEXTURE_2D, tbo);
+	glBindTexture(GL_TEXTURE_2D, tbo);*/
 	
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
@@ -69,16 +69,16 @@ bool ModuleRenderExercise::Init()
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
-	ScratchImage srcImg;
-	ScratchImage image = App->texture->LoadTexture(L"textures/Baboon.ppm", nullptr, srcImg);
-	
-	GLint internalFormat, format, type;
-	TexMetadata metadata = image.GetMetadata();
+	//ScratchImage srcImg;
+	//ScratchImage image = App->texture->LoadTexture(L"textures/Baboon.ppm", nullptr, srcImg);
+	//
+	//GLint internalFormat, format, type;
+	//TexMetadata metadata = image.GetMetadata();
 
-	App->texture->LoadMetadata(metadata, internalFormat, format, type);
-	
-	glTexImage2D(GL_TEXTURE_2D,0, internalFormat, metadata.width, metadata.height, 0, format, type, image.GetPixels());
-	glGenerateMipmap(GL_TEXTURE_2D);
+	//App->texture->LoadMetadata(metadata, internalFormat, format, type);
+	//
+	//glTexImage2D(GL_TEXTURE_2D,0, internalFormat, metadata.width, metadata.height, 0, format, type, image.GetPixels());
+	//glGenerateMipmap(GL_TEXTURE_2D);
 
 	App->camera->SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 	App->camera->SetDistance(0.1f, 100.0f);
@@ -87,6 +87,11 @@ bool ModuleRenderExercise::Init()
 
 	App->camera->SetFront(-float3::unitZ);
 	App->camera->SetUp(float3::unitY);
+
+	// Create and load Bakerhouse model
+	//model = new Model();
+	//model->Load("Models/Bakerhouse.fbx");
+
 	return true;
 }
 
@@ -110,17 +115,17 @@ update_status ModuleRenderExercise::Update()
 	xzSquareGrid(-10, 10, 0.0f, 1.0f, colors::Gray);
 	App->debugDraw->Draw(view, proj, App->window->GetWidth(), App->window->GetHeight());
 
-	glUseProgram(App->program->program);
+	//glUseProgram(App->program->program);
 
-	glUniformMatrix4fv(0, 1, GL_TRUE, &model[0][0]);
-	glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
-	glUniformMatrix4fv(2, 1, GL_TRUE, &proj[0][0]);
+	//glUniformMatrix4fv(0, 1, GL_TRUE, &model[0][0]);
+	//glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
+	//glUniformMatrix4fv(2, 1, GL_TRUE, &proj[0][0]);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, tbo);
-	glBindVertexArray(vao);
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, tbo);
+	//glBindVertexArray(vao);
 
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 	return UPDATE_CONTINUE;
 }
@@ -133,11 +138,11 @@ update_status ModuleRenderExercise::PostUpdate()
 bool ModuleRenderExercise::CleanUp()
 {
 	DEBUGLOG("Destroying render exercise");
-	glDeleteProgram(App->program->program);
-	glDeleteBuffers(1, &vbo);
-	glDeleteVertexArrays(1, &vao);
-	glDeleteBuffers(1, &ebo);
-	glDeleteTextures(1, &tbo);
+	//glDeleteProgram(App->program->program);
+	//glDeleteBuffers(1, &vbo);
+	//glDeleteVertexArrays(1, &vao);
+	//glDeleteBuffers(1, &ebo);
+	//glDeleteTextures(1, &tbo);
 	return true;
 }
 

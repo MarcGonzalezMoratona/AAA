@@ -34,6 +34,9 @@ void ModuleTexture::LoadMetadata(TexMetadata metadata, GLint& internalFormat, GL
 	}
 }
 
+unsigned ModuleTexture::Load(const wchar_t* path) {
+	return 0;
+}
 
 ScratchImage ModuleTexture::LoadTexture(const wchar_t* path, TexMetadata* metadata, ScratchImage& srcImg) {
 	HRESULT result = LoadFromDDSFile(path, DDS_FLAGS_NONE, metadata, srcImg);
