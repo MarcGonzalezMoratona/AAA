@@ -10,17 +10,17 @@ public:
 	~ModuleProgram();
 
 	bool Init();
+	bool Start();
 	update_status Update();
 
 	bool CleanUp();
 	void CreateProgram();
-	unsigned program=0;
+	unsigned GetProgram();
 
 private:
 	char* LoadShaderSource(const char* shader_file_name);
 	unsigned CompileShader(unsigned type, const char* source);
-	unsigned vertexShader;
-	unsigned fragmentShader;
+	unsigned vertexShader, fragmentShader, program;
 
 };
 

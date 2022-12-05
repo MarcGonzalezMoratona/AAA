@@ -34,7 +34,7 @@ public:
 
 	float posX = 0.0f, posY = 1.0f, posZ = 8.0f;
 	float movementSpeed = 10.0f;
-	float rotationSpeed = 12.0f;
+	float rotationSpeed = 50.0f;
 	float zoomSpeed = 14.0f;
 
 private:

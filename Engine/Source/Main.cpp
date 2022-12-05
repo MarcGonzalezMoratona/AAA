@@ -10,6 +10,7 @@
 enum main_states
 {
 	MAIN_CREATION,
+	MAIN_INIT,
 	MAIN_START,
 	MAIN_UPDATE,
 	MAIN_FINISH,
@@ -31,15 +32,31 @@ int main(int argc, char** argv)
 
 			DEBUGLOG("Application Creation --------------");
 			App = new Application();
-			state = MAIN_START;
+			state = MAIN_INIT;
 			break;
 
-		case MAIN_START:
+		case MAIN_INIT:
 
 			DEBUGLOG("Application Init --------------");
 			if (App->Init() == false)
 			{
 				DEBUGLOG("Application Init exits with error -----");
+				state = MAIN_EXIT;
+			}
+			else
+			{
+				state = MAIN_START;
+				DEBUGLOG("Application Update --------------");
+			}
+
+			break;
+
+		case MAIN_START:
+
+			DEBUGLOG("Application Init --------------");
+			if (App->Start() == false)
+			{
+				DEBUGLOG("Application Start exits with error -----");
 				state = MAIN_EXIT;
 			}
 			else

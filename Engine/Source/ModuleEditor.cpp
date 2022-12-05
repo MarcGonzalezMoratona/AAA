@@ -27,7 +27,7 @@ bool ModuleEditor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 	StyleColorsDark();
-	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderExercise);
+	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer);
 	ImGui_ImplOpenGL3_Init("#version 440");
 	return true;
 }

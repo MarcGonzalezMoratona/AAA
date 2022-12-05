@@ -2,9 +2,17 @@
 #include "Application.h"
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
+#include "ModuleWindow.h"
+#include "ModuleDebugDraw.h"
 #include "ModuleTimer.h"
 #include "../Source/MathGeoLib/Math/float3x3.h"
 #include "../Source/MathGeoLib/Math/float3.h"
+#include "debugdraw.h"
+#include "DirectXTex.h"
+
+using namespace DirectX;
+using namespace std;
+using namespace dd;
 
 ModuleCamera::ModuleCamera()
 {
@@ -18,6 +26,14 @@ ModuleCamera::~ModuleCamera()
 // Called before render is available
 bool ModuleCamera::Init()
 {
+	SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
+	SetDistance(0.1f, 100.0f);
+	SetPerspective(2.f * atanf(tanf(math::pi / 4.0f * 0.5f) * App->window->GetWidth() / App->window->GetHeight()), math::pi / 4.0f);
+	SetPos(float3(posX, posY, posZ));
+
+	SetFront(-float3::unitZ);
+	SetUp(float3::unitY);
+
 	return true;
 }
 
@@ -52,6 +68,18 @@ void ModuleCamera::Zoom(const float3& direction, int wheel) {
 // Called every draw update
 update_status ModuleCamera::Update()
 {
+	float4x4 model = float4x4::FromTRS(
+		float3(0.0f, 0.0f, 0.0f),
+		float4x4::RotateX(0),
+		float3(1.0f, 1.0f, 1.0f));
+
+	float4x4 view = App->camera->ViewMatrix();
+	float4x4 proj = App->camera->ProjectionMatrix();
+
+	axisTriad(float4x4::identity, 0.1f, 1.0f);
+	xzSquareGrid(-10, 10, 0.0f, 1.0f, colors::Gray);
+	App->debugDraw->Draw(view, proj, App->window->GetWidth(), App->window->GetHeight());
+
 	SDL_PumpEvents();
 	if (App->input->keyboard[SDL_SCANCODE_ESCAPE]) return UPDATE_STOP;
 

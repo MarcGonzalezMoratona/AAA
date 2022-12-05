@@ -34,8 +34,35 @@ void ModuleTexture::LoadMetadata(TexMetadata metadata, GLint& internalFormat, GL
 	}
 }
 
-unsigned ModuleTexture::Load(const wchar_t* path) {
-	return 0;
+unsigned ModuleTexture::Load(const char* textureName){
+	ScratchImage srcImage;
+
+	// Cast from const char * to wchar_t *
+	const size_t size = strlen(textureName) + 1;
+	wchar_t* texture_path = new wchar_t[size];
+	mbstowcs(texture_path, textureName, size);
+
+	// Load texture
+	ScratchImage image = LoadTexture(texture_path, nullptr, srcImage);
+
+	glGenTextures(1, &tbo);
+	glBindTexture(GL_TEXTURE_2D, tbo);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	// Get texture metadata
+	GLint internalFormat, format, type;
+	TexMetadata metadata = image.GetMetadata();
+	LoadMetadata(metadata, internalFormat, format, type);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, metadata.width, metadata.height, 0, format, type, image.GetPixels());
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	return tbo;
 }
 
 ScratchImage ModuleTexture::LoadTexture(const wchar_t* path, TexMetadata* metadata, ScratchImage& srcImg) {

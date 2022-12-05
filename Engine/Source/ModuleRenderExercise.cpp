@@ -1,20 +1,5 @@
 #include "Globals.h"
-#include "Application.h"
 #include "ModuleRenderExercise.h"
-#include "ModuleProgram.h"
-#include "ModuleDebugDraw.h"
-#include "ModuleCamera.h"
-#include "ModuleTexture.h"
-#include "ModuleWindow.h"
-#include "SDL.h"
-#include "GL/glew.h"
-#include "../Source/MathGeoLib/Geometry/Frustum.h"
-#include "debugdraw.h"
-#include "DirectXTex.h"
-
-using namespace DirectX;
-using namespace std;
-using namespace dd;
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
@@ -80,18 +65,6 @@ bool ModuleRenderExercise::Init()
 	//glTexImage2D(GL_TEXTURE_2D,0, internalFormat, metadata.width, metadata.height, 0, format, type, image.GetPixels());
 	//glGenerateMipmap(GL_TEXTURE_2D);
 
-	App->camera->SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	App->camera->SetDistance(0.1f, 100.0f);
-	App->camera->SetPerspective(2.f * atanf(tanf(math::pi / 4.0f * 0.5f) * App->window->GetWidth() / App->window->GetHeight()), math::pi / 4.0f);
-	App->camera->SetPos(float3(App->camera->posX, App->camera->posY, App->camera->posZ));
-
-	App->camera->SetFront(-float3::unitZ);
-	App->camera->SetUp(float3::unitY);
-
-	// Create and load Bakerhouse model
-	//model = new Model();
-	//model->Load("Models/Bakerhouse.fbx");
-
 	return true;
 }
 
@@ -103,18 +76,6 @@ update_status ModuleRenderExercise::PreUpdate()
 
 update_status ModuleRenderExercise::Update()
 {
-	float4x4 model = float4x4::FromTRS(
-		float3(0.0f, 0.0f, 0.0f),
-		float4x4::RotateX(0),
-		float3(1.0f, 1.0f, 1.0f));
-
-	float4x4 view = App->camera->ViewMatrix();
-	float4x4 proj = App->camera->ProjectionMatrix();
-
- 	axisTriad(float4x4::identity, 0.1f, 1.0f);
-	xzSquareGrid(-10, 10, 0.0f, 1.0f, colors::Gray);
-	App->debugDraw->Draw(view, proj, App->window->GetWidth(), App->window->GetHeight());
-
 	//glUseProgram(App->program->program);
 
 	//glUniformMatrix4fv(0, 1, GL_TRUE, &model[0][0]);

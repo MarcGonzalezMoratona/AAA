@@ -16,6 +16,5 @@ public:
 	Model* model;
 
 private:
-	unsigned vbo = 0, tbo = 0, ebo = 0, vao = 0;
 };
 

@@ -13,7 +13,7 @@ public:
 	Model();
 	~Model();
 	void Load(const char* file_name);
-
+	void Draw();
 
 private:
 	void LoadMeshes(const aiScene* scene);

@@ -6,6 +6,8 @@ struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
+class Model;
+
 class ModuleRender : public Module
 {
 public:
@@ -13,6 +15,7 @@ public:
 	~ModuleRender();
 
 	bool Init();
+	bool Start();
 	update_status PreUpdate();
 	update_status Update();
 	update_status PostUpdate();
@@ -20,6 +23,7 @@ public:
 	void WindowResized(unsigned width, unsigned height);
 
 	void* context;
+	Model* model;
 
 private:
 

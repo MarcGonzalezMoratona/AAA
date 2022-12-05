@@ -37,12 +37,25 @@ void Model::LoadTextures(const aiScene* scene)
 	{
 		if (scene->mMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
+			std::string texture_path = std::string(file.data);
+			const size_t lastSlashIndex = texture_path.find_last_of("\\/");
+			if (std::string::npos != lastSlashIndex)
+			{
+				texture_path.erase(0, lastSlashIndex + 1);
+			}
 			DEBUGLOG(file.data);
-			//materials.push_back(App->texture->Load(std::string(file.data)));
+			texture_path = "Textures/" + texture_path;
+			materials.push_back(App->texture->Load(texture_path.c_str()));
 		}
 	}
 }
 
+
+void Model::Draw() {
+	for (int i = 0; i < meshes.size(); i++) {
+		meshes[i]->Draw(materials);
+	}
+}
 
 void Model::LoadMeshes(const aiScene* scene)
 {
@@ -52,5 +65,6 @@ void Model::LoadMeshes(const aiScene* scene)
 	{
 		meshes[i] = new Mesh(scene->mMeshes[i]);
 	}
+	DEBUGLOG("Meshes loaded");
 }
 

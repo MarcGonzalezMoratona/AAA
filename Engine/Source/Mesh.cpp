@@ -50,7 +50,7 @@ void Mesh::LoadEBO(const aiMesh* mesh)
 
 	for (unsigned i = 0; i < mesh->mNumFaces; ++i)
 	{
-		assert(mesh->mFaces[i].mNumIndices == 3); // note: assume triangles = 3 indices per face
+		assert(mesh->mFaces[i].mNumIndices == 3);
 		*(indices++) = mesh->mFaces[i].mIndices[0];
 		*(indices++) = mesh->mFaces[i].mIndices[1];
 		*(indices++) = mesh->mFaces[i].mIndices[2];
@@ -73,7 +73,7 @@ void Mesh::CreateVAO()
 
 void Mesh::Draw(const std::vector<unsigned>& model_textures)
 {
-	unsigned program = App->program->program;
+	unsigned program = App->program->GetProgram();
 	const float4x4& view = App->camera->ViewMatrix();
 	const float4x4& proj = App->camera->ProjectionMatrix();
 	float4x4 model = float4x4::identity;
@@ -83,7 +83,8 @@ void Mesh::Draw(const std::vector<unsigned>& model_textures)
 	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, model_textures[material_index]);
-	glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
+	glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
 	glBindVertexArray(vao);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, nullptr);
 }

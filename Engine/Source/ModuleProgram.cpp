@@ -5,14 +5,22 @@
 #include "GL/glew.h"
 
 ModuleProgram::ModuleProgram()
-{}
+{
+    program = 0;
+}
 
 ModuleProgram::~ModuleProgram()
-{}
+{
+}
 
 bool ModuleProgram::Init()
 {
     DEBUGLOG("Init shader loader program");
+    return true;
+}
+
+bool ModuleProgram::Start()
+{
     CreateProgram();
     return true;
 }
@@ -42,14 +50,16 @@ char* ModuleProgram::LoadShaderSource(const char* shader_file_name)
         fread(data, 1, size, file);
         data[size] = 0;
         fclose(file);
-
     }
     return data;
 }
 
+unsigned ModuleProgram::GetProgram() {
+    return program;
+}
+
 void ModuleProgram::CreateProgram()
 {
-
     char* vertexShaderSource = LoadShaderSource("./Shaders/VertexShader.glsl");
     char* fragmentShaderSource = LoadShaderSource("./Shaders/FragmentShader.glsl");
     vertexShader = CompileShader(GL_VERTEX_SHADER, vertexShaderSource);

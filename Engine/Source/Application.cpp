@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
-#include "ModuleRenderExercise.h"
+//#include "ModuleRenderExercise.h"
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
 #include "ModuleDebugDraw.h"
@@ -23,7 +23,7 @@ Application::Application()
 	modules.push_back(program = new ModuleProgram());
 	modules.push_back(debugDraw = new ModuleDebugDraw());
 	modules.push_back(camera = new ModuleCamera());
-	modules.push_back(renderExercise = new ModuleRenderExercise());
+	//modules.push_back(renderExercise = new ModuleRenderExercise());
 	modules.push_back(texture = new ModuleTexture());
 	modules.push_back(editor = new ModuleEditor());
 }
