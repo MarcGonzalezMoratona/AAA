@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "ModuleEditor.h"
 
 ModuleWindow::ModuleWindow()
 {
@@ -91,7 +92,7 @@ void ModuleWindow::SetTitle(const char* t) {
 // Called before render is available
 bool ModuleWindow::Init()
 {
-	DEBUGLOG("Init SDL window & surface");
+	App->editor->AddLog("Init SDL window & surface");
 	bool ret = true;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -140,7 +141,7 @@ update_status ModuleWindow::Update() {
 // Called before quitting
 bool ModuleWindow::CleanUp()
 {
-	DEBUGLOG("Destroying SDL window and quitting all SDL systems");
+	App->editor->AddLog("Destroying SDL window and quitting all SDL systems");
 
 	// Destroy window
 	if (window != NULL)

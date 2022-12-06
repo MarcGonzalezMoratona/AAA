@@ -1,5 +1,7 @@
 #include "Globals.h"
 #include "ModuleRenderExercise.h"
+#include "Application.h"
+#include "ModuleEditor.h"
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
@@ -12,7 +14,7 @@ ModuleRenderExercise::~ModuleRenderExercise()
 bool ModuleRenderExercise::Init()
 {
 
-	DEBUGLOG("Creating render exercise");
+	App->editor->AddLog("Creating render exercise");
 
 	/*float vtx_data[] = { 
 		0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
@@ -98,7 +100,7 @@ update_status ModuleRenderExercise::PostUpdate()
 
 bool ModuleRenderExercise::CleanUp()
 {
-	DEBUGLOG("Destroying render exercise");
+	App->editor->AddLog("Destroying render exercise");
 	//glDeleteProgram(App->program->program);
 	//glDeleteBuffers(1, &vbo);
 	//glDeleteVertexArrays(1, &vao);

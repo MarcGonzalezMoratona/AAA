@@ -1,3 +1,5 @@
+#include "Application.h"
+#include "ModuleEditor.h"
 #include "ModuleTexture.h"
 
 ModuleTexture::ModuleTexture()
@@ -89,7 +91,7 @@ update_status ModuleTexture::Update()
 // Called before quitting
 bool ModuleTexture::CleanUp()
 {
-	DEBUGLOG("Destroying ModuleTexture");
+	App->editor->AddLog("Destroying ModuleTexture");
 	return true;
 }
 

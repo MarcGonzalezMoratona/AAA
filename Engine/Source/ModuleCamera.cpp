@@ -3,6 +3,7 @@
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
 #include "ModuleWindow.h"
+#include "ModuleEditor.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleTimer.h"
 #include "../Source/MathGeoLib/Math/float3x3.h"
@@ -151,8 +152,7 @@ float4x4 ModuleCamera::ProjectionMatrix() {
 // Called before quitting
 bool ModuleCamera::CleanUp()
 {
-	DEBUGLOG("Destroying ModuleCamera");
-
+	App->editor->AddLog("Destroying ModuleCamera");
 	return true;
 }
 

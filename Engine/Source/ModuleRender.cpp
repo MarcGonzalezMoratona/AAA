@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
+#include "ModuleEditor.h"
 #include "ModuleCamera.h"
 #include "Model.h"
 #include "SDL.h"
@@ -58,7 +59,7 @@ bool ModuleRender::Init()
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8); // we want to have a stencil buffer with 8 bits
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
 
-	DEBUGLOG("Creating Renderer context");
+	App->editor->AddLog("Creating Renderer context");
 
 	context = SDL_GL_CreateContext(App->window->window);
 
@@ -88,7 +89,7 @@ bool ModuleRender::Start()
 {
 	// Create and load Bakerhouse model
 	model = new Model();
-	DEBUGLOG("Loading bakerhouse...")
+	App->editor->AddLog("Loading bakerhouse...");
 	model->Load("Models/Bakerhouse.fbx");
 	return true;
 }
@@ -122,7 +123,7 @@ update_status ModuleRender::PostUpdate()
 // Called before quitting
 bool ModuleRender::CleanUp()
 {
-	DEBUGLOG("Destroying renderer");
+	App->editor->AddLog("Destroying renderer");
 
 	//Destroy window
 	SDL_GL_DeleteContext(App->window->window);

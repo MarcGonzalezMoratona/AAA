@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleProgram.h"
+#include "ModuleEditor.h"
 #include "SDL/include/SDL.h"
 #include "GL/glew.h"
 
@@ -15,7 +16,7 @@ ModuleProgram::~ModuleProgram()
 
 bool ModuleProgram::Init()
 {
-    DEBUGLOG("Init shader loader program");
+    App->editor->AddLog("Init shader loader program");
     return true;
 }
 
@@ -32,7 +33,7 @@ update_status ModuleProgram::Update()
 
 bool ModuleProgram::CleanUp()
 {
-    DEBUGLOG("Destroying program");
+    App->editor->AddLog("Destroying program");
     return true;
 }
 

@@ -1,3 +1,5 @@
+#include "Application.h"
+#include "ModuleEditor.h"
 #include "ModuleTimer.h"
 
 ModuleTimer::ModuleTimer()
@@ -34,7 +36,7 @@ update_status ModuleTimer::Update()
 // Called before quitting
 bool ModuleTimer::CleanUp()
 {
-	DEBUGLOG("Destroying ModuleTexture");
+	App->editor->AddLog("Destroying ModuleTimer");
 	return true;
 }
 

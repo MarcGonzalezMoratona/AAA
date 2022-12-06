@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
+#include "ModuleEditor.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "SDL/include/SDL.h"
@@ -22,7 +23,7 @@ ModuleInput::~ModuleInput()
 // Called before render is available
 bool ModuleInput::Init()
 {
-    DEBUGLOG("Init SDL input event system");
+    App->editor->AddLog("Init SDL input event system");
     bool ret = true;
     SDL_Init(0);
 
@@ -77,7 +78,7 @@ update_status ModuleInput::Update()
 // Called before quitting
 bool ModuleInput::CleanUp()
 {
-    DEBUGLOG("Quitting SDL input event subsystem");
+    App->editor->AddLog("Quitting SDL input event subsystem");
     SDL_QuitSubSystem(SDL_INIT_EVENTS);
     return true;
 }

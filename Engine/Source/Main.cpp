@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "Application.h"
 #include "ModuleRender.h"
+#include "ModuleEditor.h"
 #include "Globals.h"
 
 #include "SDL/include/SDL.h"
@@ -30,39 +31,39 @@ int main(int argc, char** argv)
 		{
 		case MAIN_CREATION:
 
-			DEBUGLOG("Application Creation --------------");
 			App = new Application();
+			App->editor->AddLog("Application Creation --------------");
 			state = MAIN_INIT;
 			break;
 
 		case MAIN_INIT:
 
-			DEBUGLOG("Application Init --------------");
+			App->editor->AddLog("Application Init --------------");
 			if (App->Init() == false)
 			{
-				DEBUGLOG("Application Init exits with error -----");
+				App->editor->AddLog("Application Init exits with error -----");
 				state = MAIN_EXIT;
 			}
 			else
 			{
 				state = MAIN_START;
-				DEBUGLOG("Application Update --------------");
+				App->editor->AddLog("Application Update --------------");
 			}
 
 			break;
 
 		case MAIN_START:
 
-			DEBUGLOG("Application Init --------------");
+			App->editor->AddLog("Application Init --------------");
 			if (App->Start() == false)
 			{
-				DEBUGLOG("Application Start exits with error -----");
+				App->editor->AddLog("Application Start exits with error -----");
 				state = MAIN_EXIT;
 			}
 			else
 			{
 				state = MAIN_UPDATE;
-				DEBUGLOG("Application Update --------------");
+				App->editor->AddLog("Application Update --------------");
 			}
 
 			break;
@@ -73,7 +74,7 @@ int main(int argc, char** argv)
 
 			if (update_return == UPDATE_ERROR)
 			{
-				DEBUGLOG("Application Update exits with error -----");
+				App->editor->AddLog("Application Update exits with error -----");
 				state = MAIN_EXIT;
 			}
 
@@ -84,10 +85,10 @@ int main(int argc, char** argv)
 
 		case MAIN_FINISH:
 
-			DEBUGLOG("Application CleanUp --------------");
+			App->editor->AddLog("Application CleanUp --------------");
 			if (App->CleanUp() == false)
 			{
-				DEBUGLOG("Application CleanUp exits with error -----");
+				App->editor->AddLog("Application CleanUp exits with error -----");
 			}
 			else
 				main_return = EXIT_SUCCESS;
@@ -101,6 +102,6 @@ int main(int argc, char** argv)
 	}
 
 	delete App;
-	DEBUGLOG("Bye :)\n");
+	App->editor->AddLog("Bye :)\n");
 	return main_return;
 }
