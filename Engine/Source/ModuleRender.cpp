@@ -65,8 +65,6 @@ bool ModuleRender::Init()
 	GLenum err = glewInit();
 
 	DEBUGLOG("Using Glew %s", glewGetString(GLEW_VERSION));
-	DEBUGLOG("Vendor: %s", glGetString(GL_VENDOR));
-	DEBUGLOG("Renderer: %s", glGetString(GL_RENDERER));
 	DEBUGLOG("OpenGL version supported %s", glGetString(GL_VERSION));
 	DEBUGLOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 

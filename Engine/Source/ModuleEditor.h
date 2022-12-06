@@ -8,6 +8,8 @@
 
 using namespace DirectX;
 
+#define GRAPH_ARRAY_SIZE 100
+
 class ModuleEditor : public Module
 {
 public:
@@ -22,6 +24,7 @@ public:
 	bool CleanUp();
 
 private:
+	float fps_log[GRAPH_ARRAY_SIZE];
 };
 
 #endif // __ModuleEditor_H__

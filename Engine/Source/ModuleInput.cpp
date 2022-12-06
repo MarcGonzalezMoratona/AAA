@@ -6,7 +6,13 @@
 #include "imgui_impl_sdl.h"
 
 ModuleInput::ModuleInput()
-{}
+{
+    mouseX = 0;
+    mouseY = 0;
+    mouseMotionX = 0;
+    mouseMotionY = 0;
+    wheel = 0;
+}
 
 // Destructor
 ModuleInput::~ModuleInput()
@@ -46,13 +52,16 @@ update_status ModuleInput::Update()
                 App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
             break;
         case SDL_MOUSEMOTION:
+            mouseX = sdlEvent.motion.x;
+            mouseY = sdlEvent.motion.y;
+
             if (sdlEvent.motion.state == SDL_BUTTON_RMASK) {
-                mouseX = sdlEvent.motion.xrel;
-                mouseY = sdlEvent.motion.yrel;
+                mouseMotionX = sdlEvent.motion.xrel;
+                mouseMotionY = sdlEvent.motion.yrel;
             }
             else {
-                mouseX = 0; 
-                mouseY = 0;
+                mouseMotionX = 0;
+                mouseMotionY = 0;
             }
             break;
         case SDL_MOUSEWHEEL:
@@ -73,10 +82,14 @@ bool ModuleInput::CleanUp()
     return true;
 }
 
-
-void ModuleInput::GetMouseMotion(int& x, int& y) {
+void ModuleInput::GetMousePosition(int& x, int& y) {
     x = mouseX;
     y = mouseY;
+}
+
+void ModuleInput::GetMouseMotion(int& x, int& y) {
+    x = mouseMotionX;
+    y = mouseMotionY;
 }
 
 void ModuleInput::GetWheel(int& w) {

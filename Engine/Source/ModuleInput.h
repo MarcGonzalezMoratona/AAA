@@ -14,11 +14,12 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+	void GetMousePosition(int& x, int& y);
 	void GetMouseMotion(int& x, int& y);
 	void GetWheel(int& w);
 
 	const Uint8* keyboard = NULL;
 
 private:
-	int mouseX = 0, mouseY = 0, wheel = 0;
+	int mouseX, mouseY, mouseMotionX, mouseMotionY, wheel;
 };

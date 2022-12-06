@@ -6,8 +6,8 @@
 #include "Application.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
+#include <string>
 
-using namespace ImGui;
 
 ModuleEditor::ModuleEditor()
 {
@@ -21,12 +21,12 @@ ModuleEditor::~ModuleEditor()
 // Called before render is available
 bool ModuleEditor::Init()
 {
-	CreateContext();
-	ImGuiIO& io = GetIO();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-	StyleColorsDark();
+	ImGui::StyleColorsDark();
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer);
 	ImGui_ImplOpenGL3_Init("#version 440");
 	return true;
@@ -43,18 +43,18 @@ update_status ModuleEditor::PreUpdate()
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
-	NewFrame();
+	ImGui::NewFrame();
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleEditor::Update()
 {
-	ShowDemoWindow();
-	Begin("Console");
-	End();
+	ImGui::ShowDemoWindow();
+	ImGui::Begin("Console");
+	ImGui::End();
 
-	Begin("Configuration");
+	ImGui::Begin("Configuration");
 	//static char buf[128] = App->window->GetTitle();
 	static int max_fps = MAX_FPS;
 	static int screen_height = App->window->GetHeight();
@@ -65,91 +65,118 @@ update_status ModuleEditor::Update()
 	static bool fullscreenDesktop = App->window->IsFullscreenDesktop();
 	static float brightness = App->window->GetBrightness();
 
-	if (CollapsingHeader("Application")) {
-		if (InputText("Engine name", App->engineName, IM_ARRAYSIZE(App->engineName))) {
+	if (ImGui::CollapsingHeader("Application")) {
+		if (ImGui::InputText("Engine name", App->engineName, IM_ARRAYSIZE(App->engineName))) {
 			App->window->SetTitle(App->engineName);
 		}
-		/*if (InputText("Organization", App->organization, IM_ARRAYSIZE(App->organization))) {
-			App->window->SetOrganization(App->organization);
-		}*/
-		SliderInt("Max FPS", &max_fps, 0, 60);
-		Text("Limit framerate: %i", max_fps);
-		//char title[25];
-		//sprintf_s(title, 25, "Framerate %.1f", fps_log[fps_log.size() - 1]);
-		//ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
-		//sprintf_s(title, 25, "Milliseconds %.1f", ms_log[ms_log.size() - 1]);
-		//ImGui::PlotHistogram("##framerate", &ms_log[0], ms_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
-		//Text("Total actual memory:", max_fps);
-		//Text("Peak reported memory:", max_fps);
-		//Text("Peak actual memory:", max_fps);
-		//Text("Accumulated reported memory:", max_fps);
-		//Text("Accumulated allocated unit count:", max_fps);
-		//Text("Total allocated unit count:", max_fps);
-		//Text("Peak allocated unit count:", max_fps);
+		ImGui::TextWrapped("Organization: UPC School");
+		ImGui::SliderInt("Max FPS", &max_fps, 0, 60);
+		ImGui::Text("Limit framerate: %i", max_fps);
+		for (int i = 0; i < GRAPH_ARRAY_SIZE; ++i)
+		{
+			fps_log[i] = fps_log[i + 1];
+		}
+		fps_log[GRAPH_ARRAY_SIZE - 1] = ImGui::GetIO().Framerate;
+
+		char fps_title[25];
+		sprintf_s(fps_title, 25, "Framerate %.1f", fps_log[GRAPH_ARRAY_SIZE - 1]);
+		ImGui::PlotHistogram("", fps_log, IM_ARRAYSIZE(fps_log), 30, fps_title, 0.0f, 130.0f, ImVec2(0, 80));
 	}
-	if (CollapsingHeader("Window")) {
-		if(SliderFloat("Brightness", &brightness, 0.0f, 1.0f)) App->window->SetBrightness(brightness);
-		if (SliderInt("Width", &screen_width, 0, 3840) || SliderInt("Height", &screen_height, 0, 3840)) App->window->SetSizes(screen_width, screen_height);
-		if (Checkbox("Fullscreen", &fullscreen)) App->window->SetFullscreen(fullscreen);
-		if (Checkbox("Resizable", &resizable)) App->window->SetResizable(resizable);
-		if (Checkbox("Borderless", &borderless)) App->window->SetBorderless(borderless);
-		if (Checkbox("Full desktop", &fullscreenDesktop)) App->window->SetFullscreenDesktop(fullscreenDesktop);
+	if (ImGui::CollapsingHeader("Window")) {
+		if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f)) App->window->SetBrightness(brightness);
+		if (ImGui::SliderInt("Width", &screen_width, 0, 3840) || ImGui::SliderInt("Height", &screen_height, 0, 3840)) App->window->SetSizes(screen_width, screen_height);
+		if (ImGui::Checkbox("Fullscreen", &fullscreen)) App->window->SetFullscreen(fullscreen);
+		if (ImGui::Checkbox("Resizable", &resizable)) App->window->SetResizable(resizable);
+		if (ImGui::Checkbox("Borderless", &borderless)) App->window->SetBorderless(borderless);
+		if (ImGui::Checkbox("Full desktop", &fullscreenDesktop)) App->window->SetFullscreenDesktop(fullscreenDesktop);
 	}
-	if (CollapsingHeader("File System")) {
+	if (ImGui::CollapsingHeader("File System")) {
 	}
-	if (CollapsingHeader("Input")) {
-		static int mouseX, mouseY, wheel;
-		App->input->GetMouseMotion(mouseX, mouseY);
+	if (ImGui::CollapsingHeader("Input")) {
+		static int mouseX, mouseY, mouseMotionX, mouseMotionY, wheel;
+		App->input->GetMousePosition(mouseX, mouseY);
+		App->input->GetMouseMotion(mouseMotionX, mouseMotionY);
 		App->input->GetWheel(wheel);
-		Text("Mouse X: %i", mouseX);
-		Text("Mouse Y: %i", mouseY);
-		Text("Mouse Wheel: %i", wheel);
+		ImGui::Text("Mouse X: %i", mouseX);
+		ImGui::Text("Mouse Y: %i", mouseY);
+		ImGui::Text("Mouse motion X: %i", mouseMotionX);
+		ImGui::Text("Mouse motion Y: %i", mouseMotionY);
+		ImGui::Text("Mouse Wheel: %i", wheel);
 	}
-	if (CollapsingHeader("Hardware")) {
-		//Text("SDL Version: %i", max_fps);
-		//Text("CPUs: %i", max_fps);
-		//Text("System RAM: %i", max_fps);
-		//Text("Caps: %i", max_fps);
-		//Text("GPS: %i", max_fps);
-		//Text("Brand: %i", max_fps);
-		//Text("VRAM Budget: %i", max_fps);
-		//Text("VRAM Usage: %i", max_fps);
-		//Text("VRAM Available: %i", max_fps);
-		//Text("VRAM Reserved: %i", max_fps);
+	float RAM = (float) SDL_GetSystemRAM() / 1024.f;
+	GLint totalMemory = 0, reservedMemory = 0, usedMemory = 0, availableMemory = 0;
+	glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &totalMemory);
+	glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &availableMemory);
+	glGetIntegerv(GL_GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX, &reservedMemory);
+	usedMemory = totalMemory - availableMemory;
+
+	SDL_version currentSDLVersion;
+	SDL_VERSION(&currentSDLVersion)
+
+	if (ImGui::CollapsingHeader("Hardware")) {
+		ImGui::Text("SDL Version: %d.%d.%d", currentSDLVersion.major, currentSDLVersion.minor, currentSDLVersion.patch);
+		ImGui::Separator();
+		ImGui::Text("CPUs: %i (Cache: %i kb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
+		ImGui::Text("System RAM: %.1f %s", RAM, "Gb");
+		ImGui::Text("Caps:");
+		ImGui::SameLine();
+		if(SDL_HasAVX()) ImGui::Text("%s", "AVX");
+		ImGui::SameLine();
+		if(SDL_HasRDTSC()) ImGui::Text("%s", "RDTSC");
+		ImGui::SameLine();
+		if(SDL_HasMMX()) ImGui::Text("%s", "MMX");
+		ImGui::SameLine();
+		if(SDL_HasSSE()) ImGui::Text("%s", "SSE");
+		ImGui::SameLine();
+		if(SDL_HasSSE2()) ImGui::Text("%s", "SSE2");
+		ImGui::SameLine();
+		if(SDL_HasSSE3()) ImGui::Text("%s", "SSE3");
+		ImGui::SameLine();
+		if(SDL_HasSSE41()) ImGui::Text("%s", "SSE41");
+		ImGui::SameLine();
+		if(SDL_HasSSE42()) ImGui::Text("%s", "SSE42");
+		ImGui::Separator();
+		ImGui::Text("GPU: %s", glGetString(GL_RENDERER));
+		ImGui::Text("Brand: %s", glGetString(GL_VENDOR));
+		ImGui::Text("VRAM Budget: %.1f %s", (float)totalMemory / 1024.f, "Mb");
+		ImGui::Text("VRAM Usage: %.1f %s", (float)usedMemory / 1024.f, "Mb");
+		ImGui::Text("VRAM Available: %.1f %s", (float)availableMemory / 1024.f, "Mb");
+		ImGui::Text("VRAM Reserved: %.1f %s", (float)reservedMemory / 1024.f, "Mb");
 	}
-	End();
+	ImGui::End();
 
 
-	if (BeginMainMenuBar()) {
-		if (BeginMenu("File")) {
-			MenuItem("New Scene");
-			MenuItem("Load Scene");
+	if (ImGui::BeginMainMenuBar()) {
+		if (ImGui::BeginMenu("File")) {
+			ImGui::MenuItem("New Scene");
+			ImGui::MenuItem("Load Scene");
 			ImGui::EndMenu();
 		}
-		if (BeginMenu("Edit")) {
-			MenuItem("Undo");
-			MenuItem("Redo");
+		if (ImGui::BeginMenu("Edit")) {
+			ImGui::MenuItem("Undo");
+			ImGui::MenuItem("Redo");
 			ImGui::EndMenu();
 		}
-		if (BeginMenu("View")) {
-			MenuItem("Dummy");
+		if (ImGui::BeginMenu("View")) {
+			ImGui::MenuItem("Dummy");
 			ImGui::EndMenu();
 		}
-		if (BeginMenu("Help")) {
-			MenuItem("Dummy");
+		if (ImGui::BeginMenu("Help")) {
+			ImGui::MenuItem("Dummy");
 			ImGui::EndMenu();
 		}
-		EndMainMenuBar();
+		ImGui::EndMainMenuBar();
 	}
-	Render();
-	ImGui_ImplOpenGL3_RenderDrawData(GetDrawData());
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	return UPDATE_CONTINUE;
 }
 
+
 update_status ModuleEditor::PostUpdate() 
 {
-	UpdatePlatformWindows();
-	RenderPlatformWindowsDefault();
+	ImGui::UpdatePlatformWindows();
+	ImGui::RenderPlatformWindowsDefault();
 	SDL_GL_MakeCurrent(App->window->window, App->renderer->context);
 	return UPDATE_CONTINUE;
 }
@@ -161,7 +188,7 @@ bool ModuleEditor::CleanUp()
 	DEBUGLOG("Destroying ModuleEditor");
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
-	DestroyContext();
+	ImGui::DestroyContext();
 
 	SDL_Quit();
 	return true;
