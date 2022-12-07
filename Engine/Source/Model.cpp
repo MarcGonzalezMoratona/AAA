@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleTexture.h"
+#include "ModuleCamera.h"
 #include "ModuleEditor.h"
 #include "PanelConsole.h"
 #include <list>
@@ -74,6 +75,10 @@ void Model::LoadMeshes(const aiScene* scene)
 
 		numTriangles += meshes[i]->num_vertices * 3;
 	}
+	if (maxCoords.x > maxCoords.y && maxCoords.x > maxCoords.z) App->camera->SetPos(math::vec((minCoords.x + maxCoords.x) / 2.0f, (minCoords.y + maxCoords.y) / 2.0f, 2.0f * maxCoords.x));
+	else if (maxCoords.y > maxCoords.x && maxCoords.y > maxCoords.z) App->camera->SetPos(math::vec((minCoords.x + maxCoords.x) / 2.0f, (minCoords.y + maxCoords.y) / 2.0f, 2.0f * maxCoords.y));
+	else App->camera->SetPos(math::vec((minCoords.x + maxCoords.x) / 2.0f, (minCoords.y + maxCoords.y) / 2.0f, 2.0f * maxCoords.z));
+
 }
 
 float3 Model::GetCenter() {

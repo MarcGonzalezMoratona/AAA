@@ -16,7 +16,6 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	// getters
 	const char* GetTitle();
 	unsigned GetWidth();
 	unsigned GetHeight();
@@ -26,7 +25,6 @@ public:
 	bool IsBorderless();
 	bool IsFullscreenDesktop();
 
-	// setters
 	void SetFullscreen(bool b);
 	void SetResizable(bool b);
 	void SetBorderless(bool b);

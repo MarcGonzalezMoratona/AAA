@@ -16,12 +16,10 @@ ModuleInput::ModuleInput()
     wheel = 0;
 }
 
-// Destructor
 ModuleInput::~ModuleInput()
 {}
 
 
-// Called before render is available
 bool ModuleInput::Init()
 {
     App->editor->AddLog("Init SDL input event system");
@@ -37,7 +35,6 @@ bool ModuleInput::Init()
     return ret;
 }
 
-// Called every draw update
 update_status ModuleInput::Update()
 {
     SDL_Event sdlEvent;
@@ -80,7 +77,6 @@ update_status ModuleInput::Update()
     return UPDATE_CONTINUE;
 }
 
-// Called before quitting
 bool ModuleInput::CleanUp()
 {
     App->editor->AddLog("Quitting SDL input event subsystem");

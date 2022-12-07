@@ -18,12 +18,10 @@ ModuleEditor::ModuleEditor()
 	panels.push_back(configuration = new PanelConfiguration("Configuration"));
 }
 
-// Destructor
 ModuleEditor::~ModuleEditor()
 {
 }
 
-// Called before render is available
 bool ModuleEditor::Init()
 {
 	ImGui::CreateContext();
@@ -42,7 +40,6 @@ bool ModuleEditor::Start()
 	return true;
 }
 
-// Called every draw update
 update_status ModuleEditor::PreUpdate()
 {
 	ImGui_ImplOpenGL3_NewFrame();
@@ -104,7 +101,6 @@ update_status ModuleEditor::PostUpdate()
 	return UPDATE_CONTINUE;
 }
 
-// Called before quitting
 bool ModuleEditor::CleanUp()
 {
 	AddLog("Destroying ModuleEditor");
