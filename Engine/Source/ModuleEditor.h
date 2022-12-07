@@ -27,7 +27,7 @@ public:
 	bool CleanUp();
 
 private:
-	float fps_log[GRAPH_ARRAY_SIZE];
+	float fpsLog[GRAPH_ARRAY_SIZE];
 	std::vector<const char*> items;
 	bool scrollToBottom = false;
 	bool console = false, configuration = false, exit = false;

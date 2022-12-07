@@ -70,7 +70,7 @@ update_status Application::Update()
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->PostUpdate();
-
+	
 	return ret;
 }
 

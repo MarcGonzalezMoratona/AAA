@@ -18,12 +18,16 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+	void SetMaxFPS(int fps);
+	int GetMaxFPS();
 
-	float delta_time = 0.0f;
+	float deltaTime = 0.0f;
 	bool running;
 	Uint32 lastTime;
+	float fps = 60.0f; 
 
 private:
+	int maxFPS = 60;
 };
 
 #endif // __ModuleTimer_H__

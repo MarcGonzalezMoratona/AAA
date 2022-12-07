@@ -29,15 +29,16 @@ public:
 	void Rotate(const float3x3& rotationMatrix);
 	void Move(const float3& direction);
 	void Zoom(const float3& direction, int wheel);
+	float3 GetPos();
 	float4x4 ViewMatrix();
 	float4x4 ProjectionMatrix();
 
-	float posX = 0.0f, posY = 1.0f, posZ = 8.0f;
 	float movementSpeed = 10.0f;
 	float rotationSpeed = 50.0f;
 	float zoomSpeed = 14.0f;
 
 private:
+	float posX = 0.0f, posY = 1.0f, posZ = 8.0f;
 	Frustum frustum;
 };
 

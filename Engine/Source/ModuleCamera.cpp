@@ -58,11 +58,11 @@ void ModuleCamera::Rotate(const float3x3& rotationMatrix) {
 }
 
 void ModuleCamera::Move(const float3& direction) {
-	frustum.SetPos(frustum.Pos() + direction * (movementSpeed * App->timer->delta_time));
+	frustum.SetPos(frustum.Pos() + direction * (movementSpeed * App->timer->deltaTime));
 }
 
 void ModuleCamera::Zoom(const float3& direction, int wheel) {
-	frustum.SetPos(frustum.Pos() + direction * (zoomSpeed * wheel * App->timer->delta_time));
+	frustum.SetPos(frustum.Pos() + direction * (zoomSpeed * wheel * App->timer->deltaTime));
 }
 
 
@@ -96,10 +96,10 @@ update_status ModuleCamera::Update()
 	int mouseX, mouseY;
 	App->input->GetMouseMotion(mouseX, mouseY);
 
-	if (mouseX < 0) Rotate(float3x3::RotateY(-rotationSpeed * DEGTORAD * App->timer->delta_time));
-	if (mouseX > 0) Rotate(float3x3::RotateY(rotationSpeed * DEGTORAD * App->timer->delta_time));
-	if (mouseY > 0) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), rotationSpeed * DEGTORAD * App->timer->delta_time));
-	if (mouseY < 0) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), -rotationSpeed * DEGTORAD * App->timer->delta_time));
+	if (mouseX < 0) Rotate(float3x3::RotateY(-rotationSpeed * DEGTORAD * App->timer->deltaTime));
+	if (mouseX > 0) Rotate(float3x3::RotateY(rotationSpeed * DEGTORAD * App->timer->deltaTime));
+	if (mouseY > 0) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), rotationSpeed * DEGTORAD * App->timer->deltaTime));
+	if (mouseY < 0) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), -rotationSpeed * DEGTORAD * App->timer->deltaTime));
 
 	// zoom
 	int wheel;
@@ -107,10 +107,14 @@ update_status ModuleCamera::Update()
 	if(wheel != 0) Zoom(frustum.Front(), wheel);
 
 	// speed
-	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) movementSpeed = 8.0f;
+	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) movementSpeed = 9.0f;
 	else movementSpeed = 3.0f;
 
 	return UPDATE_CONTINUE;
+}
+
+float3 ModuleCamera::GetPos() {
+	return float3(posX, posY, posZ);
 }
 
 void ModuleCamera::SetAspectRatio(float w, float h) {

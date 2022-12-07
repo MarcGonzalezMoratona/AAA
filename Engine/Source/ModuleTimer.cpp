@@ -23,13 +23,27 @@ bool ModuleTimer::Start()
 	return true;
 }
 
+int ModuleTimer::GetMaxFPS() 
+{
+	return maxFPS;
+}
+
+void ModuleTimer::SetMaxFPS(int fps)
+{
+	maxFPS = fps;
+}
 
 // Called every draw update
 update_status ModuleTimer::Update()
 {
 	Uint32 currentTime = SDL_GetTicks();
-	delta_time = (float)(currentTime - lastTime) / 1000.0f;
+	deltaTime = (float)(currentTime - lastTime) / 1000.0f;
+	if (deltaTime < 1.0f / maxFPS) {
+		SDL_Delay(1.0f / maxFPS - deltaTime);
+		deltaTime = 1.0f / maxFPS;
+	}
 	lastTime = currentTime;
+	fps = 1.0f / deltaTime;
 	return UPDATE_CONTINUE;
 }
 

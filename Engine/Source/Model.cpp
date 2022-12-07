@@ -23,10 +23,7 @@ void Model::Load(const char* file_name)
 		LoadTextures(scene);
 		LoadMeshes(scene);
 	}
-	else
-	{
-		DEBUGLOG("Error loading %s: %s", file_name, aiGetErrorString());
-	}
+	else DEBUGLOG("Error loading %s: %s", file_name, aiGetErrorString());
 }
 
 void Model::LoadTextures(const aiScene* scene)

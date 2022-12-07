@@ -16,8 +16,6 @@ enum update_status
 // Constants -----------
 #define DEGTORAD 0.01745329251f
 #define RADTODEG 1.0f / DEGTORAD
-#define MAX_FPS 60
-#define MIN_FPS 0
 
 // Configuration -----------
 #define GLSL_VERSION "#version 440"
