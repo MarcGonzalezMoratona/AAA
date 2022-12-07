@@ -4,7 +4,7 @@ A C++ 3D Engine created for the Master's Degree in Advanced Programming for AAA 
 
 Developed by [Marc González Moratona](https://github.com/marcelinus99)
 
-The source code of the project is available in this [GitHub repository](https://github.com/marcelinus99/AAA)
+The source code of the project is available in this [GitHub repository](https://github.com/marcelinus99/AAA/tree/master/Engine)
 
 ## Features
  - 3D Scene with Unity-like controls (move, rotate, orbit, zoom and focus)
