@@ -85,12 +85,6 @@ void ModuleWindow::SetTitle(const char* t) {
 	SDL_SetWindowTitle(window, t);
 }
 
-//void ModuleWindow::SetOrganization(const char* t) {
-//	SDL_SetWindowTitle(window, t);
-//}
-
-
-// Called before render is available
 bool ModuleWindow::Init()
 {
 	App->editor->AddLog("Init SDL window & surface");
@@ -103,7 +97,17 @@ bool ModuleWindow::Init()
 	}
 	else
 	{
-		// Create window
+		SDL_DisplayMode dm;
+
+		if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
+		{
+			SDL_Log("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
+			ret = false;
+		}
+
+		screen_width = dm.w/3*2;
+		screen_height = dm.h/3*2;
+
 		Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
 
 		if (resizable) flags |= SDL_WINDOW_RESIZABLE;
@@ -120,7 +124,6 @@ bool ModuleWindow::Init()
 		}
 		else
 		{
-			// Get window surface
 			screen_surface = SDL_GetWindowSurface(window);
 		}
 	}
@@ -139,7 +142,6 @@ update_status ModuleWindow::Update() {
 }
 
 
-// Called before quitting
 bool ModuleWindow::CleanUp()
 {
 	DEBUGLOG("Destroying SDL window and quitting all SDL systems");

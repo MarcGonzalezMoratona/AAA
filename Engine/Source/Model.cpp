@@ -77,7 +77,7 @@ void Model::LoadMeshes(const aiScene* scene)
 }
 
 float3 Model::GetCenter() {
-	return float3(maxCoords.x - minCoords.x / 2.0f,	maxCoords.y - minCoords.y / 2.0f, maxCoords.z - minCoords.z / 2.0f);
+	return float3((minCoords.x + maxCoords.x) / 2.0f, (minCoords.y + maxCoords.y) / 2.0f, (minCoords.z + maxCoords.z) / 2.0f);
 }
 
 int Model::GetTriangleCount() {
