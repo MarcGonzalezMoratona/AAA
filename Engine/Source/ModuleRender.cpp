@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "SDL.h"
 #include "GL/glew.h"
+#include "PanelConsole.h"
 
 ModuleRender::ModuleRender()
 {
@@ -17,8 +18,8 @@ ModuleRender::~ModuleRender()
 {
 }
 
-void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
-{
+//void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+//{
 	//const char* tmp_source = "", * tmp_type = "", * tmp_severity = "";
 	//switch (source) {
 	//	case GL_DEBUG_SOURCE_API: tmp_source = "API"; break;
@@ -46,7 +47,7 @@ void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, GLe
 	//	case GL_DEBUG_SEVERITY_NOTIFICATION: tmp_severity = "notification"; break;
 	//};
 	//DEBUGLOG("<Source:%s> <Type:%s> <Severity:%s> <ID:%d> <Message:%s>\n", tmp_source, tmp_type, tmp_severity, id, message);
-}
+//}
 
 // Called before render is available
 bool ModuleRender::Init()
@@ -77,7 +78,7 @@ bool ModuleRender::Init()
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
-	glDebugMessageCallback(OurOpenGLErrorFunction, nullptr);
+	//glDebugMessageCallback(OurOpenGLErrorFunction, nullptr);
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
     #endif
 
@@ -91,6 +92,9 @@ void ModuleRender::DropFile(const char* path) {
 	model->Load(path);
 }
 
+Model* ModuleRender::GetModel() {
+	return model;
+}
 
 bool ModuleRender::Start()
 {
