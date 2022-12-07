@@ -100,7 +100,7 @@ update_status ModuleRenderExercise::PostUpdate()
 
 bool ModuleRenderExercise::CleanUp()
 {
-	App->editor->AddLog("Destroying render exercise");
+	DEBUGLOG("Destroying render exercise");
 	//glDeleteProgram(App->program->program);
 	//glDeleteBuffers(1, &vbo);
 	//glDeleteVertexArrays(1, &vao);

@@ -85,23 +85,20 @@ int main(int argc, char** argv)
 
 		case MAIN_FINISH:
 
-			App->editor->AddLog("Application CleanUp --------------");
+			DEBUGLOG("Application CleanUp --------------");
 			if (App->CleanUp() == false)
 			{
-				App->editor->AddLog("Application CleanUp exits with error -----");
+				DEBUGLOG("Application CleanUp exits with error -----");
 			}
-			else
-				main_return = EXIT_SUCCESS;
-
+			else main_return = EXIT_SUCCESS;
 			state = MAIN_EXIT;
 
 			break;
-
 		}
 
 	}
 
 	delete App;
-	App->editor->AddLog("Bye :)\n");
+	DEBUGLOG("Bye :)\n");
 	return main_return;
 }

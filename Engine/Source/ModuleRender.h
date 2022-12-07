@@ -21,6 +21,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
+	void DropFile(const char* path);
 
 	void* context;
 	Model* model;

@@ -68,6 +68,10 @@ update_status ModuleInput::Update()
         case SDL_MOUSEWHEEL:
             wheel = sdlEvent.wheel.y;
             break;
+        case SDL_DROPFILE:
+            App->editor->AddLog("File dropped");
+            App->renderer->DropFile(sdlEvent.drop.file);
+            break;
         }
 
         keyboard = SDL_GetKeyboardState(NULL);

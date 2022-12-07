@@ -39,7 +39,7 @@ bool ModuleEditor::Start()
 }
 
 // Called every draw update
-update_status ModuleEditor::PreUpdate() 
+update_status ModuleEditor::PreUpdate()
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
@@ -56,7 +56,7 @@ void ModuleEditor::AddLog(const char* log)
 
 update_status ModuleEditor::Update()
 {
-	//ImGui::ShowDemoWindow();
+	ImGui::ShowDemoWindow();
 
 	if (console) {
 		ImGui::Begin("Console");
@@ -162,7 +162,7 @@ update_status ModuleEditor::Update()
 		if (ImGui::BeginMenu("File")) {
 			ImGui::MenuItem("New Scene");
 			ImGui::MenuItem("Load Scene");
-			if (ImGui::MenuItem("Exit")) exit = true;
+			if (ImGui::MenuItem("Exit")) return UPDATE_STOP;
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Edit")) {
@@ -180,16 +180,15 @@ update_status ModuleEditor::Update()
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("About")) {
-			if (ImGui::MenuItem("GitHub repository")) ShellExecuteA(NULL, "open", "https://github.com/marcelinus99/AAA", NULL, NULL, SW_SHOWNORMAL);
+			if (ImGui::MenuItem("GitHub repository")) ShellExecuteA(NULL, "open", "https://github.com/marcelinus99/AAA/tree/master/Engine", NULL, NULL, SW_SHOWNORMAL);
 			if (ImGui::MenuItem("Engine Docs")) ShellExecuteA(NULL, "open", "https://github.com/marcelinus99/AAA/wiki", NULL, NULL, SW_SHOWNORMAL);
-			if (ImGui::MenuItem("Last releases")) ShellExecuteA(NULL, "open", "https://github.com/marcelinus99/AAA/releases", NULL, NULL, SW_SHOWNORMAL);
+			if (ImGui::MenuItem("Latest releases")) ShellExecuteA(NULL, "open", "https://github.com/marcelinus99/AAA/releases", NULL, NULL, SW_SHOWNORMAL);
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
 	}
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	if (exit) return UPDATE_STOP;
 	return UPDATE_CONTINUE;
 }
 

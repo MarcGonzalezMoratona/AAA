@@ -141,7 +141,7 @@ update_status ModuleWindow::Update() {
 // Called before quitting
 bool ModuleWindow::CleanUp()
 {
-	App->editor->AddLog("Destroying SDL window and quitting all SDL systems");
+	DEBUGLOG("Destroying SDL window and quitting all SDL systems");
 
 	// Destroy window
 	if (window != NULL)
