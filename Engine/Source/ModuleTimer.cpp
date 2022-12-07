@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ModuleEditor.h"
 #include "ModuleTimer.h"
+#include "PanelConsole.h"
 
 ModuleTimer::ModuleTimer()
 {

@@ -4,6 +4,7 @@
 #include "ModuleEditor.h"
 #include "SDL/include/SDL.h"
 #include "GL/glew.h"
+#include "PanelConsole.h"
 
 ModuleProgram::ModuleProgram()
 {

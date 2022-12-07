@@ -5,15 +5,17 @@
 #include "DirectXTex.h"
 #include "SDL/include/SDL.h"
 #include <GL/glew.h>
+#include <list>
 
 using namespace DirectX;
 
-#define GRAPH_ARRAY_SIZE 100
+class Panel;
+class PanelConsole;
+class PanelConfiguration;
 
 class ModuleEditor : public Module
 {
 public:
-
 	ModuleEditor();
 	virtual ~ModuleEditor();
 	bool Init();
@@ -21,16 +23,15 @@ public:
 	update_status PreUpdate();
 	update_status Update();
 	update_status PostUpdate();
-	void ShowConsole(bool b);
-	void ShowConfiguration(bool b);
-	void AddLog(const char* log);
 	bool CleanUp();
+	void AddLog(const char* log);
+
+	std::vector<const char*> logs;
 
 private:
-	float fpsLog[GRAPH_ARRAY_SIZE];
-	std::vector<const char*> items;
-	bool scrollToBottom = false;
-	bool console = false, configuration = false, exit = false;
+	std::list<Panel*> panels;
+	PanelConsole* console = nullptr;
+	PanelConfiguration* configuration = nullptr;
 };
 
 #endif // __ModuleEditor_H__

@@ -14,6 +14,8 @@ public:
 	~Model();
 	void Load(const char* file_name);
 	void Draw();
+	float3 GetCenter();
+	int GetTriangleCount();
 
 private:
 	void LoadMeshes(const aiScene* scene);
@@ -21,5 +23,7 @@ private:
 
 	std::vector<unsigned> materials;
 	std::vector<Mesh*> meshes;
+	float3 minCoords, maxCoords;
+	int numTriangles;
 };
 

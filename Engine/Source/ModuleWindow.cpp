@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
+#include "PanelConsole.h"
 
 ModuleWindow::ModuleWindow()
 {

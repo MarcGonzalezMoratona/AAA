@@ -5,11 +5,14 @@
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
 #include "ModuleDebugDraw.h"
+#include "ModuleRender.h"
 #include "ModuleTimer.h"
+#include "Model.h"
 #include "../Source/MathGeoLib/Math/float3x3.h"
 #include "../Source/MathGeoLib/Math/float3.h"
 #include "debugdraw.h"
 #include "DirectXTex.h"
+#include "PanelConsole.h"
 
 using namespace DirectX;
 using namespace std;
@@ -19,12 +22,10 @@ ModuleCamera::ModuleCamera()
 {
 }
 
-// Destructor
 ModuleCamera::~ModuleCamera()
 {
 }
 
-// Called before render is available
 bool ModuleCamera::Init()
 {
 	SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
@@ -40,13 +41,6 @@ bool ModuleCamera::Init()
 
 bool ModuleCamera::Start()
 {
-	//SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	//SetDistance(0.1f, 100.0f);
-	//SetPerspective(2.f * atanf(tanf(math::pi / 4.0f * 0.5f) * SCREEN_WIDTH / SCREEN_HEIGHT), math::pi / 4.0f);
-
-	//SetPos(float3(posX, posY, posZ));
-	SetFront(-float3::unitZ);
-	//SetUp(float3::unitY);
 	return true;
 }
 
@@ -65,8 +59,11 @@ void ModuleCamera::Zoom(const float3& direction, int wheel) {
 	frustum.SetPos(frustum.Pos() + direction * (zoomSpeed * wheel * App->timer->deltaTime));
 }
 
+void ModuleCamera::drawAxis() {
+	axisTriad(float4x4::identity, 0.1f, 1.0f);
+	xzSquareGrid(-10, 10, 0.0f, 1.0f, colors::Gray);
+}
 
-// Called every draw update
 update_status ModuleCamera::Update()
 {
 	float4x4 model = float4x4::FromTRS(
@@ -77,22 +74,22 @@ update_status ModuleCamera::Update()
 	float4x4 view = App->camera->ViewMatrix();
 	float4x4 proj = App->camera->ProjectionMatrix();
 
-	axisTriad(float4x4::identity, 0.1f, 1.0f);
-	xzSquareGrid(-10, 10, 0.0f, 1.0f, colors::Gray);
+	drawAxis();
 	App->debugDraw->Draw(view, proj, App->window->GetWidth(), App->window->GetHeight());
 
 	SDL_PumpEvents();
 	if (App->input->keyboard[SDL_SCANCODE_ESCAPE]) return UPDATE_STOP;
 
-	// movement
+	// Movement
 	if (App->input->keyboard[SDL_SCANCODE_E]) Move(float3::unitY);
 	if (App->input->keyboard[SDL_SCANCODE_Q]) Move(-float3::unitY);
 	if (App->input->keyboard[SDL_SCANCODE_D]) Move(frustum.WorldRight());
 	if (App->input->keyboard[SDL_SCANCODE_A]) Move(-frustum.WorldRight());
 	if (App->input->keyboard[SDL_SCANCODE_W]) Move(frustum.Front());
 	if (App->input->keyboard[SDL_SCANCODE_S]) Move(-frustum.Front());
+	if (App->input->keyboard[SDL_SCANCODE_F]) LookAt(App->renderer->GetModel()->GetCenter());
 
-	// rotate
+	// Rotation
 	int mouseX, mouseY;
 	App->input->GetMouseMotion(mouseX, mouseY);
 
@@ -101,12 +98,12 @@ update_status ModuleCamera::Update()
 	if (mouseY > 0) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), rotationSpeed * DEGTORAD * App->timer->deltaTime));
 	if (mouseY < 0) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), -rotationSpeed * DEGTORAD * App->timer->deltaTime));
 
-	// zoom
+	// Zoom
 	int wheel;
 	App->input->GetWheel(wheel);
 	if(wheel != 0) Zoom(frustum.Front(), wheel);
 
-	// speed
+	// Speed
 	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) movementSpeed = 9.0f;
 	else movementSpeed = 3.0f;
 
@@ -153,10 +150,15 @@ float4x4 ModuleCamera::ProjectionMatrix() {
 	return frustum.ProjectionMatrix();
 }
 
-// Called before quitting
 bool ModuleCamera::CleanUp()
 {
 	App->editor->AddLog("Destroying ModuleCamera");
 	return true;
 }
 
+void ModuleCamera::LookAt(const float3& lookAt)
+{
+	float3x3 direction = float3x3::LookAt(frustum.Front(), (lookAt - frustum.Pos()).Normalized(), frustum.Up(), float3::unitY);
+	SetFront(direction.MulDir(frustum.Front()).Normalized());
+	SetUp(direction.MulDir(frustum.Up()).Normalized());
+}

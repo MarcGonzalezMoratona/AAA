@@ -5,6 +5,7 @@
 #include "ModuleRender.h"
 #include "SDL/include/SDL.h"
 #include "imgui_impl_sdl.h"
+#include "PanelConsole.h"
 
 ModuleInput::ModuleInput()
 {

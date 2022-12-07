@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleEditor.h"
+#include "PanelConsole.h"
 #include "Globals.h"
 
 #include "SDL/include/SDL.h"

@@ -17,7 +17,6 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-	//void drawAxis();
 
 	void SetAspectRatio(float h, float w);
 	void SetDistance(float nearPlane, float farPlane);
@@ -32,12 +31,15 @@ public:
 	float3 GetPos();
 	float4x4 ViewMatrix();
 	float4x4 ProjectionMatrix();
+	void LookAt(const float3& lookAt);
 
 	float movementSpeed = 10.0f;
 	float rotationSpeed = 50.0f;
 	float zoomSpeed = 14.0f;
 
 private:
+	void drawAxis();
+
 	float posX = 0.0f, posY = 1.0f, posZ = 8.0f;
 	Frustum frustum;
 };

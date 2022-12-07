@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ModuleEditor.h"
 #include "ModuleTexture.h"
+#include "PanelConsole.h"
 
 ModuleTexture::ModuleTexture()
 {
