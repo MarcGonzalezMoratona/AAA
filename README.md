@@ -1,28 +1,18 @@
-# LEGO ENGINE
+# AAA videogames
 
-A C++ 3D Engine created for the Master's Degree in Advanced Programming for AAA Videogames.
+This repository has been created for the Master's Degree in Advanced Programming for AAA Videogames.
 
 Developed by [Marc González Moratona](https://github.com/marcelinus99)
 
 The source code of the project is available in this [GitHub repository](https://github.com/marcelinus99/AAA)
 
-## Features
- - 3D Scene with Unity-like controls (move, rotate, orbit, zoom and focus)
- - Geometry and simple texture loading using drag and drop for .fbx files
- - Information window for memory consumption, hardware detection, software versions
- - Configuration window for the camera, geometry, customization and other variables 
- - Window resizing
- - Log console
+## Engine
 
-## How to use Lego Engine
-Take a look at the [wiki](https://github.com/marcelinus99/AAA/wiki) to see the full usage documentation of the engine.
+This repository contains the engine that I developed for the Master's Degree.
 
-## Libraries used
--   SDL 2 ([https://www.libsdl.org/](https://www.libsdl.org/))
--   Glew ([https://github.com/nigels-com/glew](https://github.com/nigels-com/glew))
--   MatGeoLib ([https://github.com/juj/MathGeoLib](https://github.com/juj/MathGeoLib))
--   Dear ImGui ([https://github.com/ocornut/imgui](https://github.com/ocornut/imgui))
--   assimp ([https://github.com/assimp/assimp](https://github.com/assimp/assimp))
+## Other exercises
+
+This repository also contains other exercises, such as an SDL practice, python exercises, String and Vec3 implementations for C++.
 
 ## License
 
