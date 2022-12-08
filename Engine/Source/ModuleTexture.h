@@ -23,8 +23,13 @@ public:
 	void LoadMetadata(TexMetadata metadata, GLint& internalFormat, GLint& format, GLint& type);
 	unsigned Load(const char* textureName);
 
+	inline TexMetadata GetMetadata() {
+		return metadata;
+	}
+
 private:
 	unsigned tbo = 0;
+	TexMetadata metadata;
 };
 
 #endif // __ModuleTexture_H__

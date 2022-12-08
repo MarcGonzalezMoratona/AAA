@@ -59,7 +59,7 @@ unsigned ModuleTexture::Load(const char* textureName){
 
 	// Get texture metadata
 	GLint internalFormat, format, type;
-	TexMetadata metadata = image.GetMetadata();
+	metadata = image.GetMetadata();
 	LoadMetadata(metadata, internalFormat, format, type);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, metadata.width, metadata.height, 0, format, type, image.GetPixels());

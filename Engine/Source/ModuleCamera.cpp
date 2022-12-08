@@ -74,8 +74,9 @@ update_status ModuleCamera::Update()
 	SDL_PumpEvents();
 	if (App->input->keyboard[SDL_SCANCODE_ESCAPE]) return UPDATE_STOP;
 
-	int mouseX, mouseY;
+	int mouseX, mouseY, orbitMouseX, orbitMouseY;
 	App->input->GetMouseMotion(mouseX, mouseY);
+	App->input->GetOrbitMouseMotion(orbitMouseX, orbitMouseY);
 
 	// Movement
 	if (App->input->keyboard[SDL_SCANCODE_E]) Move(float3::unitY);
@@ -87,10 +88,10 @@ update_status ModuleCamera::Update()
 	if (App->input->keyboard[SDL_SCANCODE_F]) LookAt(App->renderer->GetModel()->GetCenter());
 
 	if (App->input->keyboard[SDL_SCANCODE_LALT] && App->input->GetOrbit()) {
-		if (mouseY < 0) Move(-float3::unitY);
-		if (mouseY > 0) Move(float3::unitY);
-		if (mouseX > 0) Move(-frustum.WorldRight());
-		if (mouseX < 0) Move(frustum.WorldRight());
+		if (orbitMouseX > 0) Move(-frustum.WorldRight());
+		if (orbitMouseX < 0) Move(frustum.WorldRight());
+		if (orbitMouseY > 0) Move(float3::unitY);
+		if (orbitMouseY < 0) Move(-float3::unitY);
 		LookAt(App->renderer->GetModel()->GetCenter());
 	}
 

@@ -82,7 +82,7 @@ void PanelConfiguration::Draw()
 		int numTriangles = App->renderer->GetModel()->GetTriangleCount();
 		ImGui::Text("Model center: %.2f %.2f %.2f", center.x, center.y, center.z);
 		ImGui::Text("Triangle count: %i", numTriangles);
-		ImGui::Text("Texture size: %i %i", 0, 0);
+		ImGui::Text("Texture size: %i px x %i px", App->texture->GetMetadata().width, App->texture->GetMetadata().width);
 	}
 
 	if (ImGui::CollapsingHeader("Input")) {

@@ -17,6 +17,7 @@ public:
 
 	void GetMousePosition(int& x, int& y);
 	void GetMouseMotion(int& x, int& y);
+	void GetOrbitMouseMotion(int& x, int& y);
 	void GetWheel(int& w);
 
 	inline bool GetOrbit()
@@ -27,6 +28,6 @@ public:
 	const Uint8* keyboard = NULL;
 
 private:
-	int mouseX, mouseY, mouseMotionX, mouseMotionY, wheel;
+	int mouseX, mouseY, mouseMotionX, mouseMotionY, orbitMouseMotionX, orbitMouseMotionY, wheel;
 	bool orbit;
 };

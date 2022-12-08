@@ -11,6 +11,8 @@ ModuleInput::ModuleInput()
 {
     mouseX = 0;
     mouseY = 0;
+    orbitMouseMotionX = 0;
+    orbitMouseMotionY = 0;
     mouseMotionX = 0;
     mouseMotionY = 0;
     wheel = 0;
@@ -60,13 +62,15 @@ update_status ModuleInput::Update()
                 orbit = false;
             }
             else if (sdlEvent.motion.state == SDL_BUTTON_LMASK) {
-                mouseMotionX = sdlEvent.motion.xrel;
-                mouseMotionY = sdlEvent.motion.yrel;
+                orbitMouseMotionX = sdlEvent.motion.xrel;
+                orbitMouseMotionY = sdlEvent.motion.yrel;
                 orbit = true;
             }
             else {
                 mouseMotionX = 0;
                 mouseMotionY = 0;
+                orbitMouseMotionX = 0;
+                orbitMouseMotionY = 0;
                 orbit = false;
             }
             break;
@@ -98,6 +102,11 @@ void ModuleInput::GetMousePosition(int& x, int& y) {
 void ModuleInput::GetMouseMotion(int& x, int& y) {
     x = mouseMotionX;
     y = mouseMotionY;
+}
+
+void ModuleInput::GetOrbitMouseMotion(int& x, int& y) {
+    x = orbitMouseMotionX;
+    y = orbitMouseMotionY;
 }
 
 void ModuleInput::GetWheel(int& w) {
