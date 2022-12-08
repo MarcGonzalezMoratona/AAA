@@ -21,8 +21,8 @@ void PanelConfiguration::Draw()
 {
 	ImGui::Begin("Configuration");
 	static int max_fps = App->timer->GetMaxFPS();
-	static int screen_height = App->window->GetHeight();
-	static int screen_width = App->window->GetWidth();
+	static int screen_height, screen_width;
+	App->window->GetWindowSize(screen_width,screen_height);
 	static bool fullscreen = App->window->IsFullscreen();
 	static bool resizable = App->window->IsResizable();
 	static bool borderless = App->window->IsBorderless();

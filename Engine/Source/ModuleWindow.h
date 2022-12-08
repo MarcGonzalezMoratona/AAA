@@ -24,6 +24,7 @@ public:
 
 	unsigned GetWidth();
 	unsigned GetHeight();
+	void GetWindowSize(int& width, int& height);
 
 	inline float GetBrightness()
 	{

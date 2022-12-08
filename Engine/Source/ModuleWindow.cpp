@@ -24,6 +24,10 @@ unsigned ModuleWindow::GetHeight() {
 	return height;
 }
 
+void ModuleWindow::GetWindowSize(int& width, int& height) {
+	SDL_GetWindowSize(window, &width, &height);
+}
+
 bool ModuleWindow::Init()
 {
 	App->editor->AddLog("Init SDL window & surface");
