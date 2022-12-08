@@ -66,9 +66,9 @@ bool ModuleRender::Init()
 
 	GLenum err = glewInit();
 
-	DEBUGLOG("Using Glew %s", glewGetString(GLEW_VERSION));
-	DEBUGLOG("OpenGL version supported %s", glGetString(GL_VERSION));
-	DEBUGLOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+	//DEBUGLOG("Using Glew %s", glewGetString(GLEW_VERSION));
+	//DEBUGLOG("OpenGL version supported %s", glGetString(GL_VERSION));
+	//DEBUGLOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
 	glEnable(GL_DEPTH_TEST); // Enable depth test
 	glEnable(GL_CULL_FACE); // Enable cull backward faces

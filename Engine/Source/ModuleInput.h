@@ -14,12 +14,19 @@ public:
 	bool Init() override;
 	update_status Update() override;
 	bool CleanUp() override;
+
 	void GetMousePosition(int& x, int& y);
 	void GetMouseMotion(int& x, int& y);
 	void GetWheel(int& w);
+
+	inline bool GetOrbit()
+	{
+		return orbit;
+	}
 
 	const Uint8* keyboard = NULL;
 
 private:
 	int mouseX, mouseY, mouseMotionX, mouseMotionY, wheel;
+	bool orbit;
 };

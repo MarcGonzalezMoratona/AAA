@@ -30,7 +30,7 @@ public:
 		return maxFPS;
 	}
 
-	inline int GetFPS()
+	inline float GetFPS()
 	{
 		return fps;
 	}

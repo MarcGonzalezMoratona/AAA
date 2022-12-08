@@ -54,14 +54,20 @@ update_status ModuleInput::Update()
         case SDL_MOUSEMOTION:
             mouseX = sdlEvent.motion.x;
             mouseY = sdlEvent.motion.y;
-
             if (sdlEvent.motion.state == SDL_BUTTON_RMASK) {
                 mouseMotionX = sdlEvent.motion.xrel;
                 mouseMotionY = sdlEvent.motion.yrel;
+                orbit = false;
+            }
+            else if (sdlEvent.motion.state == SDL_BUTTON_LMASK) {
+                mouseMotionX = sdlEvent.motion.xrel;
+                mouseMotionY = sdlEvent.motion.yrel;
+                orbit = true;
             }
             else {
                 mouseMotionX = 0;
                 mouseMotionY = 0;
+                orbit = false;
             }
             break;
         case SDL_MOUSEWHEEL:
@@ -72,7 +78,6 @@ update_status ModuleInput::Update()
             App->renderer->DropFile(sdlEvent.drop.file);
             break;
         }
-
         keyboard = SDL_GetKeyboardState(NULL);
     }
     return UPDATE_CONTINUE;
