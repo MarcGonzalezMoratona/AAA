@@ -15,7 +15,7 @@ The source code of the project is available in this [GitHub repository](https://
  - Log console
 
 ## How to use Dark Side Engine
-Take a look at the [wiki](https://github.com/marcelinus99/AAA/wiki) to see the full usage documentation of the engine.
+Take a look at the [wiki](https://github.com/marcelinus99/AAA/wiki/Dark-Side-Engine) to see the full usage documentation of the engine.
 
 ## Libraries used
 -   SDL 2 ([https://www.libsdl.org/](https://www.libsdl.org/))
