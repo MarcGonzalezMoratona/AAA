@@ -40,7 +40,7 @@ void ModuleTexture::LoadMetadata(TexMetadata metadata, GLint& internalFormat, GL
 unsigned ModuleTexture::Load(const char* textureName){
 	ScratchImage srcImage;
 
-	// Cast from const char * to wchar_t *
+	// Cast from const char* to wchar_t*
 	const size_t size = strlen(textureName) + 1;
 	wchar_t* texture_path = new wchar_t[size];
 	mbstowcs(texture_path, textureName, size);
@@ -77,19 +77,16 @@ ScratchImage ModuleTexture::LoadTexture(const wchar_t* path, TexMetadata* metada
 	return img;
 }
 
-// Called before render is available
 bool ModuleTexture::Init()
 {
 	return true;
 }
 
-// Called every draw update
 update_status ModuleTexture::Update()
 {
 	return UPDATE_CONTINUE;
 }
 
-// Called before quitting
 bool ModuleTexture::CleanUp()
 {
 	App->editor->AddLog("Destroying ModuleTexture");

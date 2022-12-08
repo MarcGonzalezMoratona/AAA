@@ -3,12 +3,27 @@
 class Panel
 {
 public:
-	Panel(const char* name);
-	virtual ~Panel();
+	Panel(const char* name) {
+	}
 
-	void ToggleVisibility();
-	bool IsVisible();
-	const char* GetName();
+	~Panel() {
+	}
+
+	void ToggleVisibility() {
+		visible = !visible;
+	}
+
+	virtual void Draw() {}
+	
+	bool IsVisible()
+	{
+		return visible;
+	}
+
+	const char* GetName()
+	{
+		return name;
+	}
 
 private:
 	bool visible = true;

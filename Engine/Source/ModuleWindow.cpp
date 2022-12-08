@@ -8,81 +8,20 @@ ModuleWindow::ModuleWindow()
 {
 }
 
-// Destructor
 ModuleWindow::~ModuleWindow()
 {
 }
 
-// Brightness
-float ModuleWindow::GetBrightness() {
-	return SDL_GetWindowBrightness(window);
-}
-
-void ModuleWindow::SetBrightness(float b) {
-	SDL_SetWindowBrightness(window, b);
-}
-
-// Screen width
 unsigned ModuleWindow::GetWidth() {
 	int width, height;
 	SDL_GetWindowSize(window, &width, &height);
 	return width;
 }
 
-// Screen height
 unsigned ModuleWindow::GetHeight() {
 	int width, height;
 	SDL_GetWindowSize(window, &width, &height);
 	return height;
-}
-
-void ModuleWindow::SetSizes(int w, int h){
-	SDL_SetWindowSize(window, w, h);
-}
-
-// Resizable
-bool ModuleWindow::IsResizable() {
-	return resizable;
-}
-
-void ModuleWindow::SetResizable(bool b) {
-	resizable = b;
-}
-
-// Borderless
-bool ModuleWindow::IsBorderless() {
-	return borderless;
-}
-
-void ModuleWindow::SetBorderless(bool b) {
-	borderless = b;
-}
-
-// Fullscreen
-bool ModuleWindow::IsFullscreen() {
-	return fullscreen;
-}
-
-void ModuleWindow::SetFullscreen(bool b) {
-	fullscreen = b;
-}
-
-// Fullscreen desktop
-bool ModuleWindow::IsFullscreenDesktop() {
-	return fullscreen_desktop;
-}
-
-void ModuleWindow::SetFullscreenDesktop(bool b) {
-	fullscreen_desktop = b;
-}
-
-// Title
-const char* ModuleWindow::GetTitle() {
-	return SDL_GetWindowTitle(window);
-}
-
-void ModuleWindow::SetTitle(const char* t) {
-	SDL_SetWindowTitle(window, t);
 }
 
 bool ModuleWindow::Init()

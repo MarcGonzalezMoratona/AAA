@@ -7,8 +7,9 @@ class PanelConfiguration : public Panel
 {
 public:
     PanelConfiguration(const char* title);
-    virtual ~PanelConfiguration();
-    void Draw();
+    ~PanelConfiguration();
+
+    void Draw() override;
 
 private:
     float fpsLog[GRAPH_ARRAY_SIZE];

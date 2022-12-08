@@ -18,13 +18,16 @@ class ModuleEditor : public Module
 public:
 	ModuleEditor();
 	virtual ~ModuleEditor();
-	bool Init();
-	bool Start();
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
-	bool CleanUp();
-	void AddLog(const char* log);
+	bool Init() override;
+	bool Start() override;
+	update_status PreUpdate() override;
+	update_status Update() override;
+	update_status PostUpdate() override;
+	bool CleanUp() override;
+
+	inline void AddLog(const char* log) {
+		logs.push_back(log);
+	}
 
 	std::vector<const char*> logs;
 
@@ -32,6 +35,9 @@ private:
 	std::list<Panel*> panels;
 	PanelConsole* console = nullptr;
 	PanelConfiguration* configuration = nullptr;
+	bool exit = false;
+	void ShowMenu();
+
 };
 
 #endif // __ModuleEditor_H__

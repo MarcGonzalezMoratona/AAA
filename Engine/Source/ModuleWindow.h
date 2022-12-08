@@ -11,27 +11,78 @@ class ModuleWindow : public Module
 public:
 
 	ModuleWindow();
-	virtual ~ModuleWindow();
-	bool Init();
-	update_status Update();
-	bool CleanUp();
+	~ModuleWindow();
 
-	const char* GetTitle();
+	bool Init() override;
+	update_status Update() override;
+	bool CleanUp() override;
+
+	inline const char* GetTitle()
+	{
+		return SDL_GetWindowTitle(window);
+	}
+
 	unsigned GetWidth();
 	unsigned GetHeight();
-	float GetBrightness();
-	bool IsFullscreen();
-	bool IsResizable();
-	bool IsBorderless();
-	bool IsFullscreenDesktop();
 
-	void SetFullscreen(bool b);
-	void SetResizable(bool b);
-	void SetBorderless(bool b);
-	void SetFullscreenDesktop(bool b);
-	void SetBrightness(float b);
-	void SetSizes(int w, int h);
-	void SetTitle(const char* t);
+	inline float GetBrightness()
+	{
+		return SDL_GetWindowBrightness(window);
+	}
+
+	inline bool IsFullscreen() {
+		return fullscreen;
+	}
+
+	inline bool IsResizable() 
+	{
+		return resizable;
+	}
+
+	inline bool IsBorderless()
+	{
+		return borderless;
+	}
+
+	inline bool IsFullscreenDesktop()
+	{
+		return fullscreen_desktop;
+	}
+
+	inline void SetFullscreen(bool b)
+	{
+		fullscreen = b;
+	}
+
+	void SetResizable(bool b)
+	{
+		resizable = b;
+	}
+
+	void SetBorderless(bool b)
+	{
+		borderless = b;
+	}
+
+	void SetFullscreenDesktop(bool b)
+	{
+		fullscreen_desktop = b;
+	}
+
+	inline void SetBrightness(float b)
+	{
+		SDL_SetWindowBrightness(window, b);
+	}
+
+	inline void SetSizes(int w, int h)
+	{
+		SDL_SetWindowSize(window, w, h);
+	}
+
+	inline void SetTitle(const char* t)
+	{
+		SDL_SetWindowTitle(window, t);
+	}
 
 	SDL_Window* window = NULL;
 	SDL_Surface* screen_surface = NULL;

@@ -9,14 +9,8 @@
 #include "ModuleTimer.h"
 #include "Model.h"
 #include "../Source/MathGeoLib/Math/float3x3.h"
-#include "../Source/MathGeoLib/Math/float3.h"
 #include "debugdraw.h"
 #include "DirectXTex.h"
-#include "PanelConsole.h"
-
-using namespace DirectX;
-using namespace std;
-using namespace dd;
 
 ModuleCamera::ModuleCamera()
 {
@@ -52,16 +46,16 @@ void ModuleCamera::Rotate(const float3x3& rotationMatrix) {
 }
 
 void ModuleCamera::Move(const float3& direction) {
-	frustum.SetPos(frustum.Pos() + direction * (movementSpeed * App->timer->deltaTime));
+	frustum.SetPos(frustum.Pos() + direction * (movementSpeed * App->timer->GetDeltaTime()));
 }
 
 void ModuleCamera::Zoom(const float3& direction, int wheel) {
-	frustum.SetPos(frustum.Pos() + direction * (zoomSpeed * wheel * App->timer->deltaTime));
+	frustum.SetPos(frustum.Pos() + direction * (zoomSpeed * wheel * App->timer->GetDeltaTime()));
 }
 
 void ModuleCamera::drawAxis() {
-	axisTriad(float4x4::identity, 0.1f, 1.0f);
-	xzSquareGrid(-10, 10, 0.0f, 1.0f, colors::Gray);
+	dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
+	dd::xzSquareGrid(-10, 10, 0.0f, 1.0f, dd::colors::Gray);
 }
 
 update_status ModuleCamera::Update()
@@ -93,15 +87,15 @@ update_status ModuleCamera::Update()
 	int mouseX, mouseY;
 	App->input->GetMouseMotion(mouseX, mouseY);
 
-	if (App->input->keyboard[SDL_SCANCODE_DOWN]) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), -rotationSpeed * DEGTORAD * App->timer->deltaTime));
-	if (App->input->keyboard[SDL_SCANCODE_UP]) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), rotationSpeed * DEGTORAD * App->timer->deltaTime));
-	if (App->input->keyboard[SDL_SCANCODE_LEFT]) Rotate(float3x3::RotateY(rotationSpeed * DEGTORAD * App->timer->deltaTime));
-	if (App->input->keyboard[SDL_SCANCODE_RIGHT]) Rotate(float3x3::RotateY(-rotationSpeed * DEGTORAD * App->timer->deltaTime));
+	if (App->input->keyboard[SDL_SCANCODE_DOWN]) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), -rotationSpeed * DEGTORAD * App->timer->GetDeltaTime()));
+	if (App->input->keyboard[SDL_SCANCODE_UP]) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), rotationSpeed * DEGTORAD * App->timer->GetDeltaTime()));
+	if (App->input->keyboard[SDL_SCANCODE_LEFT]) Rotate(float3x3::RotateY(rotationSpeed * DEGTORAD * App->timer->GetDeltaTime()));
+	if (App->input->keyboard[SDL_SCANCODE_RIGHT]) Rotate(float3x3::RotateY(-rotationSpeed * DEGTORAD * App->timer->GetDeltaTime()));
 
-	if (mouseX < 0) Rotate(float3x3::RotateY(-rotationSpeed * DEGTORAD * App->timer->deltaTime));
-	if (mouseX > 0) Rotate(float3x3::RotateY(rotationSpeed * DEGTORAD * App->timer->deltaTime));
-	if (mouseY > 0) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), rotationSpeed * DEGTORAD * App->timer->deltaTime));
-	if (mouseY < 0) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), -rotationSpeed * DEGTORAD * App->timer->deltaTime));
+	if (mouseX < 0) Rotate(float3x3::RotateY(-rotationSpeed * DEGTORAD * App->timer->GetDeltaTime()));
+	if (mouseX > 0) Rotate(float3x3::RotateY(rotationSpeed * DEGTORAD * App->timer->GetDeltaTime()));
+	if (mouseY > 0) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), rotationSpeed * DEGTORAD * App->timer->GetDeltaTime()));
+	if (mouseY < 0) Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), -rotationSpeed * DEGTORAD * App->timer->GetDeltaTime()));
 
 	// Zoom
 	int wheel;
@@ -113,10 +107,6 @@ update_status ModuleCamera::Update()
 	else movementSpeed = 3.0f;
 
 	return UPDATE_CONTINUE;
-}
-
-float3 ModuleCamera::GetPos() {
-	return float3(posX, posY, posZ);
 }
 
 void ModuleCamera::SetAspectRatio(float w, float h) {

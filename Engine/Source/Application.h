@@ -1,5 +1,4 @@
 #pragma once
-
 #include <list>
 #include "Globals.h"
 #include "Module.h"
@@ -27,7 +26,6 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-public:
 	ModuleRender* renderer = nullptr;
 	ModuleWindow* window = nullptr;
 	ModuleInput* input = nullptr;
@@ -38,11 +36,10 @@ public:
 	ModuleEditor* editor = nullptr;
 	ModuleTimer* timer = nullptr;
 
-	char engineName[25] = "LEGO engine";
+	char engineName[25] = "Dark side engine";
 	char organization[25] = "";
 
 private:
-
 	std::list<Module*> modules;
 
 };

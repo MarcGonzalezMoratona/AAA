@@ -35,7 +35,8 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 	min = float3(mesh->mVertices[0].x, mesh->mVertices[0].y, mesh->mVertices[0].z);
 	max = float3(mesh->mVertices[0].x, mesh->mVertices[0].y, mesh->mVertices[0].z);
 
-	for (unsigned i = 0; i < mesh->mNumVertices; ++i) {
+	for (unsigned i = 0; i < mesh->mNumVertices; ++i) 
+	{
 		uvs[i] = float2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
 		if (mesh->mVertices[i].x > max.x) max.x = mesh->mVertices[i].x;
 		if (mesh->mVertices[i].x < min.x) min.x = mesh->mVertices[i].x;

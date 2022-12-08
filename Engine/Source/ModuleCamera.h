@@ -13,10 +13,11 @@ public:
 
 	ModuleCamera();
 	virtual ~ModuleCamera();
-	bool Init();
-	bool Start();
-	update_status Update();
-	bool CleanUp();
+
+	bool Init() override;
+	bool Start() override;
+	update_status Update() override;
+	bool CleanUp() override;
 
 	void SetAspectRatio(float h, float w);
 	void SetDistance(float nearPlane, float farPlane);
@@ -28,7 +29,12 @@ public:
 	void Rotate(const float3x3& rotationMatrix);
 	void Move(const float3& direction);
 	void Zoom(const float3& direction, int wheel);
-	float3 GetPos();
+	
+	inline float3 GetPos()
+	{
+		return float3(posX, posY, posZ);
+	}
+	
 	float4x4 ViewMatrix();
 	float4x4 ProjectionMatrix();
 	void LookAt(const float3& lookAt);
@@ -40,8 +46,8 @@ public:
 private:
 	void drawAxis();
 
-	float posX = 0.0f, posY = 1.0f, posZ = 8.0f;
 	Frustum frustum;
+	float posX = 0.0f, posY = 1.0f, posZ = 8.0f;
 };
 
 #endif // __ModuleCamera_H__

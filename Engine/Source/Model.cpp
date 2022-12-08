@@ -47,7 +47,6 @@ void Model::LoadTextures(const aiScene* scene)
 	}
 }
 
-
 void Model::Draw() {
 	for (unsigned int i = 0; i < meshes.size(); i++) meshes[i]->Draw(materials);
 }
@@ -78,13 +77,4 @@ void Model::LoadMeshes(const aiScene* scene)
 	if (maxCoords.x > maxCoords.y && maxCoords.x > maxCoords.z) App->camera->SetPos(math::vec((minCoords.x + maxCoords.x) / 2.0f, (minCoords.y + maxCoords.y) / 2.0f, 2.0f * maxCoords.x));
 	else if (maxCoords.y > maxCoords.x && maxCoords.y > maxCoords.z) App->camera->SetPos(math::vec((minCoords.x + maxCoords.x) / 2.0f, (minCoords.y + maxCoords.y) / 2.0f, 2.0f * maxCoords.y));
 	else App->camera->SetPos(math::vec((minCoords.x + maxCoords.x) / 2.0f, (minCoords.y + maxCoords.y) / 2.0f, 2.0f * maxCoords.z));
-
-}
-
-float3 Model::GetCenter() {
-	return float3((minCoords.x + maxCoords.x) / 2.0f, (minCoords.y + maxCoords.y) / 2.0f, (minCoords.z + maxCoords.z) / 2.0f);
-}
-
-int Model::GetTriangleCount() {
-	return numTriangles;
 }

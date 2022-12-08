@@ -14,19 +14,26 @@ public:
 	ModuleRender();
 	~ModuleRender();
 
-	bool Init();
-	bool Start();
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
-	bool CleanUp();
+	bool Init() override;
+	bool Start() override;
+	update_status PreUpdate() override;
+	update_status Update() override;
+	update_status PostUpdate() override;
+	bool CleanUp() override;
+
 	void WindowResized(unsigned width, unsigned height);
 	void DropFile(const char* path);
-	Model* GetModel();
+	
+	inline Model* GetModel() {
+		return model;
+	}
 
-	void* context;
-	Model* model;
+	inline void* GetContext() {
+		return context;
+	}
 
 private:
+	void* context;
+	Model* model;
 
 };

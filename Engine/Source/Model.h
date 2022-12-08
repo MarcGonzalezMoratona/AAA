@@ -14,8 +14,16 @@ public:
 	~Model();
 	void Load(const char* file_name);
 	void Draw();
-	float3 GetCenter();
-	int GetTriangleCount();
+
+	inline float3 GetCenter()
+	{
+		return float3((minCoords.x + maxCoords.x) / 2.0f, (minCoords.y + maxCoords.y) / 2.0f, (minCoords.z + maxCoords.z) / 2.0f);
+	}
+
+	inline int GetTriangleCount()
+	{
+		return numTriangles;
+	}
 
 private:
 	void LoadMeshes(const aiScene* scene);

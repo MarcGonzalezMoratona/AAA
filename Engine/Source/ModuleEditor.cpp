@@ -44,22 +44,16 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
-
 	return UPDATE_CONTINUE;
 }
 
 
-update_status ModuleEditor::Update()
-{
-	ImGui::ShowDemoWindow();
-
-	if (console->IsVisible()) console->Draw();
-	if (configuration->IsVisible()) configuration->Draw();
+void ModuleEditor::ShowMenu() {
 	if (ImGui::BeginMainMenuBar()) {
 		if (ImGui::BeginMenu("File")) {
 			//ImGui::MenuItem("New Scene");
 			//ImGui::MenuItem("Load Scene");
-			if (ImGui::MenuItem("Exit")) return UPDATE_STOP;
+			if (ImGui::MenuItem("Exit")) exit = true;
 			ImGui::EndMenu();
 		}
 		//if (ImGui::BeginMenu("Edit")) {
@@ -80,12 +74,20 @@ update_status ModuleEditor::Update()
 		//}
 		if (ImGui::BeginMenu("About")) {
 			if (ImGui::MenuItem("GitHub repository")) ShellExecuteA(NULL, "open", "https://github.com/marcelinus99/AAA/tree/master/Engine", NULL, NULL, SW_SHOWNORMAL);
-			if (ImGui::MenuItem("Engine Docs")) ShellExecuteA(NULL, "open", "https://github.com/marcelinus99/AAA/wiki", NULL, NULL, SW_SHOWNORMAL);
+			if (ImGui::MenuItem("Engine Docs")) ShellExecuteA(NULL, "open", "https://github.com/marcelinus99/AAA/wiki/Dark-Side-Engine", NULL, NULL, SW_SHOWNORMAL);
 			if (ImGui::MenuItem("Latest releases")) ShellExecuteA(NULL, "open", "https://github.com/marcelinus99/AAA/releases", NULL, NULL, SW_SHOWNORMAL);
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
 	}
+}
+
+update_status ModuleEditor::Update()
+{
+	if (console->IsVisible()) console->Draw();
+	if (configuration->IsVisible()) configuration->Draw();
+	ShowMenu();
+	if (exit) return UPDATE_STOP;
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	return UPDATE_CONTINUE;
@@ -96,7 +98,7 @@ update_status ModuleEditor::PostUpdate()
 {
 	ImGui::UpdatePlatformWindows();
 	ImGui::RenderPlatformWindowsDefault();
-	SDL_GL_MakeCurrent(App->window->window, App->renderer->context);
+	SDL_GL_MakeCurrent(App->window->window, App->renderer->GetContext());
 	return UPDATE_CONTINUE;
 }
 
@@ -108,11 +110,6 @@ bool ModuleEditor::CleanUp()
 	ImGui::DestroyContext();
 	SDL_Quit();
 	return true;
-}
-
-void ModuleEditor::AddLog(const char* log)
-{
-	logs.push_back(log);
 }
 
 

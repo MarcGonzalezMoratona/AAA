@@ -9,13 +9,17 @@ public:
 	ModuleProgram();
 	~ModuleProgram();
 
-	bool Init();
-	bool Start();
-	update_status Update();
+	bool Init() override;
+	bool Start() override;
+	update_status Update() override;
+	bool CleanUp() override;
 
-	bool CleanUp();
 	void CreateProgram();
-	unsigned GetProgram();
+
+	inline unsigned GetProgram()
+	{
+		return program;
+	}
 
 private:
 	char* LoadShaderSource(const char* shader_file_name);

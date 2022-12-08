@@ -13,19 +13,18 @@ class ModuleTexture : public Module
 public:
 
 	ModuleTexture();
-	virtual ~ModuleTexture();
-	bool Init();
-	update_status Update();
-	bool CleanUp();
+	~ModuleTexture();
+
+	bool Init() override;
+	update_status Update() override;
+	bool CleanUp() override;
 
 	ScratchImage LoadTexture(const wchar_t* path, TexMetadata* metadata, ScratchImage& srcImg);
 	void LoadMetadata(TexMetadata metadata, GLint& internalFormat, GLint& format, GLint& type);
 	unsigned Load(const char* textureName);
 
-	unsigned tbo = 0;
-
 private:
-
+	unsigned tbo = 0;
 };
 
 #endif // __ModuleTexture_H__

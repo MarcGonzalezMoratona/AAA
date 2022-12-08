@@ -33,8 +33,8 @@ void PanelConfiguration::Draw()
 		if (ImGui::InputText("Engine name", App->engineName, IM_ARRAYSIZE(App->engineName))) App->window->SetTitle(App->engineName);
 		ImGui::TextWrapped("Organization: UPC School");
 		if (ImGui::SliderInt("Max FPS", &max_fps, 1, 120)) App->timer->SetMaxFPS(max_fps);
-		ImGui::Text("Limit framerate: %f", App->timer->fps);
-		fpsLog[GRAPH_ARRAY_SIZE - 1] = App->timer->fps;
+		ImGui::Text("Limit framerate: %f", App->timer->GetFPS());
+		fpsLog[GRAPH_ARRAY_SIZE - 1] = App->timer->GetFPS();
 		for (int i = 0; i < GRAPH_ARRAY_SIZE - 1; ++i) fpsLog[i] = fpsLog[i + 1];
 
 		char fps_title[25];
@@ -78,8 +78,8 @@ void PanelConfiguration::Draw()
 		//if (ImGui::InputFloat("X", &modelX, 0.01f, 1.0f, "%.3f")) App->camera->SetPos(float3(modelX, modelY, modelZ));
 		//if (ImGui::InputFloat("Y", &modelY, 0.01f, 1.0f, "%.3f")) App->camera->SetPos(float3(modelX, modelY, modelZ));
 		//if (ImGui::InputFloat("Z", &modelZ, 0.01f, 1.0f, "%.3f")) App->camera->SetPos(float3(modelX, modelY, modelZ));
-		float3 center = App->renderer->model->GetCenter();
-		int numTriangles = App->renderer->model->GetTriangleCount();
+		float3 center = App->renderer->GetModel()->GetCenter();
+		int numTriangles = App->renderer->GetModel()->GetTriangleCount();
 		ImGui::Text("Model center: %.2f %.2f %.2f", center.x, center.y, center.z);
 		ImGui::Text("Triangle count: %i", numTriangles);
 		ImGui::Text("Texture size: %i %i", 0, 0);
@@ -106,8 +106,7 @@ void PanelConfiguration::Draw()
 		usedMemory = totalMemory - availableMemory;
 
 		SDL_version currentSDLVersion;
-		SDL_VERSION(&currentSDLVersion)
-			ImGui::Text("SDL Version: %d.%d.%d", currentSDLVersion.major, currentSDLVersion.minor, currentSDLVersion.patch);
+		SDL_VERSION(&currentSDLVersion)	ImGui::Text("SDL Version: %d.%d.%d", currentSDLVersion.major, currentSDLVersion.minor, currentSDLVersion.patch);
 		ImGui::Separator();
 		ImGui::Text("CPUs: %i (Cache: %i kb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
 		ImGui::Text("System RAM: %.1f %s", RAM, "Gb");

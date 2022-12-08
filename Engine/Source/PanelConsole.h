@@ -7,7 +7,7 @@ class PanelConsole : public Panel
 public:
     PanelConsole(const char* title);
     virtual ~PanelConsole();
-    void Draw();
+    void Draw() override;
 
 private:
     bool scrollToBottom = false;

@@ -56,10 +56,6 @@ char* ModuleProgram::LoadShaderSource(const char* shader_file_name)
     return data;
 }
 
-unsigned ModuleProgram::GetProgram() {
-    return program;
-}
-
 void ModuleProgram::CreateProgram()
 {
     char* vertexShaderSource = LoadShaderSource("./Shaders/VertexShader.glsl");

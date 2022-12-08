@@ -13,20 +13,38 @@ class ModuleTimer : public Module
 public:
 
 	ModuleTimer();
-	virtual ~ModuleTimer();
-	bool Init();
-	bool Start();
-	update_status Update();
-	bool CleanUp();
-	void SetMaxFPS(int fps);
-	int GetMaxFPS();
+	~ModuleTimer();
 
+	bool Init() override;
+	bool Start() override;
+	update_status Update() override;
+	bool CleanUp() override;
+
+	inline void SetMaxFPS(int fps)
+	{
+		maxFPS = fps;
+	}
+
+	inline int GetMaxFPS()
+	{
+		return maxFPS;
+	}
+
+	inline int GetFPS()
+	{
+		return fps;
+	}
+
+	inline float GetDeltaTime() 
+	{
+		return deltaTime;
+	}
+
+private:
 	float deltaTime = 0.0f;
 	bool running;
 	Uint32 lastTime;
 	float fps = 60.0f; 
-
-private:
 	int maxFPS = 60;
 };
 

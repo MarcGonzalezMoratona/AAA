@@ -17,7 +17,8 @@ ModuleInput::ModuleInput()
 }
 
 ModuleInput::~ModuleInput()
-{}
+{
+}
 
 
 bool ModuleInput::Init()

@@ -86,14 +86,10 @@ bool ModuleRender::Init()
 }
 
 void ModuleRender::DropFile(const char* path) {
-	App->editor->AddLog("Loading file...");
+	App->editor->AddLog("Loading model...");
 	delete model;
 	model = new Model();
 	model->Load(path);
-}
-
-Model* ModuleRender::GetModel() {
-	return model;
 }
 
 bool ModuleRender::Start()

@@ -11,9 +11,9 @@ public:
 	ModuleInput();
 	~ModuleInput();
 
-	bool Init();
-	update_status Update();
-	bool CleanUp();
+	bool Init() override;
+	update_status Update() override;
+	bool CleanUp() override;
 	void GetMousePosition(int& x, int& y);
 	void GetMouseMotion(int& x, int& y);
 	void GetWheel(int& w);

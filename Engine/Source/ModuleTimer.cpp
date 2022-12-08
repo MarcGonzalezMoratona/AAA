@@ -7,12 +7,10 @@ ModuleTimer::ModuleTimer()
 {
 }
 
-// Destructor
 ModuleTimer::~ModuleTimer()
 {
 }
 
-// Called before render is available
 bool ModuleTimer::Init()
 {
 	lastTime = SDL_GetTicks();
@@ -24,17 +22,6 @@ bool ModuleTimer::Start()
 	return true;
 }
 
-int ModuleTimer::GetMaxFPS() 
-{
-	return maxFPS;
-}
-
-void ModuleTimer::SetMaxFPS(int fps)
-{
-	maxFPS = fps;
-}
-
-// Called every draw update
 update_status ModuleTimer::Update()
 {
 	Uint32 currentTime = SDL_GetTicks();
@@ -48,7 +35,6 @@ update_status ModuleTimer::Update()
 	return UPDATE_CONTINUE;
 }
 
-// Called before quitting
 bool ModuleTimer::CleanUp()
 {
 	App->editor->AddLog("Destroying ModuleTimer");
