@@ -50,9 +50,9 @@ void PanelConfiguration::Draw()
 		if (ImGui::Checkbox("Full desktop", &fullscreenDesktop)) App->window->SetFullscreenDesktop(fullscreenDesktop);
 	}
 	if (ImGui::CollapsingHeader("Camera")) {
-		static float cameraX = App->camera->GetPos().x;
-		static float cameraY = App->camera->GetPos().y;
-		static float cameraZ = App->camera->GetPos().z;
+		static float cameraX, cameraY, cameraZ;
+		App->camera->GetCameraPos(cameraX, cameraY, cameraZ);
+
 		ImGui::TextWrapped("Camera position");
 		if (ImGui::InputFloat("X", &cameraX, 0.01f, 1.0f, "%.3f")) App->camera->SetPos(float3(cameraX, cameraY, cameraZ));
 		if (ImGui::InputFloat("Y", &cameraY, 0.01f, 1.0f, "%.3f")) App->camera->SetPos(float3(cameraX, cameraY, cameraZ));
@@ -63,9 +63,9 @@ void PanelConfiguration::Draw()
 		//if (ImGui::InputFloat("Z", &cameraZ, 0.01f, 1.0f, "%.3f")) App->camera->SetPos(float3(cameraX, cameraY, cameraZ));
 	}
 	if (ImGui::CollapsingHeader("Model")) {
-		static float modelX = App->camera->GetPos().x;
-		static float modelY = App->camera->GetPos().y;
-		static float modelZ = App->camera->GetPos().z;
+		//static float modelX = App->camera->GetPosX();
+		//static float modelY = App->camera->GetPosY();
+		//static float modelZ = App->camera->GetPosZ();
 		//ImGui::TextWrapped("Model position");
 		//if (ImGui::InputFloat("X", &modelX, 0.01f, 1.0f, "%.3f")) App->camera->SetPos(float3(modelX, modelY, modelZ));
 		//if (ImGui::InputFloat("Y", &modelY, 0.01f, 1.0f, "%.3f")) App->camera->SetPos(float3(modelX, modelY, modelZ));

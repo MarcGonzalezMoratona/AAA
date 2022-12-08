@@ -14,6 +14,9 @@
 
 ModuleCamera::ModuleCamera()
 {
+	posX = 0.0f;
+	posY = 1.0f;
+	posZ = 8.0f;
 }
 
 ModuleCamera::~ModuleCamera()
@@ -47,6 +50,9 @@ void ModuleCamera::Rotate(const float3x3& rotationMatrix) {
 
 void ModuleCamera::Move(const float3& direction) {
 	frustum.SetPos(frustum.Pos() + direction * (movementSpeed * App->timer->GetDeltaTime()));
+	posX = frustum.Pos().x;
+	posY = frustum.Pos().y;
+	posZ = frustum.Pos().z;
 }
 
 void ModuleCamera::Zoom(const float3& direction, int wheel) {
@@ -112,8 +118,8 @@ update_status ModuleCamera::Update()
 	if(wheel != 0) Zoom(frustum.Front(), wheel);
 
 	// Speed
-	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) movementSpeed = 9.0f;
-	else movementSpeed = 3.0f;
+	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) movementSpeed = 10.0f;
+	else movementSpeed = 5.0f;
 
 	return UPDATE_CONTINUE;
 }

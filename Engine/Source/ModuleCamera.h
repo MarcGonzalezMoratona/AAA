@@ -30,24 +30,26 @@ public:
 	void Move(const float3& direction);
 	void Zoom(const float3& direction, int wheel);
 	
-	inline float3 GetPos()
+	inline void GetCameraPos(float &x, float &y, float &z)
 	{
-		return float3(posX, posY, posZ);
+		x = posX;
+		y = posY;
+		z = posZ;
 	}
-	
+
 	float4x4 ViewMatrix();
 	float4x4 ProjectionMatrix();
 	void LookAt(const float3& lookAt);
 
-	float movementSpeed = 10.0f;
-	float rotationSpeed = 50.0f;
-	float zoomSpeed = 14.0f;
+	float movementSpeed = 5.0f;
+	float rotationSpeed = 20.0f;
+	float zoomSpeed = 10.0f;
 
 private:
 	void drawAxis();
 
 	Frustum frustum;
-	float posX = 0.0f, posY = 1.0f, posZ = 8.0f;
+	float posX, posY, posZ;
 };
 
 #endif // __ModuleCamera_H__
