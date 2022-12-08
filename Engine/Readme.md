@@ -23,6 +23,7 @@ Take a look at the [wiki](https://github.com/marcelinus99/AAA/wiki) to see the f
 -   MatGeoLib ([https://github.com/juj/MathGeoLib](https://github.com/juj/MathGeoLib))
 -   Dear ImGui ([https://github.com/ocornut/imgui](https://github.com/ocornut/imgui))
 -   assimp ([https://github.com/assimp/assimp](https://github.com/assimp/assimp))
+-   DirectXTex ([https://github.com/microsoft/DirectXTex](https://github.com/microsoft/DirectXTex))
 
 ## License
 
