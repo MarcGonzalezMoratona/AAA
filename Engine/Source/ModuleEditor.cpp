@@ -11,7 +11,6 @@
 #include "imgui_impl_opengl3.h"
 #include <string>
 
-
 ModuleEditor::ModuleEditor()
 {
 	panels.push_back(console = new PanelConsole("Console"));
@@ -20,6 +19,7 @@ ModuleEditor::ModuleEditor()
 
 ModuleEditor::~ModuleEditor()
 {
+	for (std::list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it) delete* it;
 }
 
 bool ModuleEditor::Init()
@@ -28,7 +28,6 @@ bool ModuleEditor::Init()
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 	ImGui::StyleColorsDark();
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer);
 	ImGui_ImplOpenGL3_Init("#version 440");
@@ -107,7 +106,6 @@ bool ModuleEditor::CleanUp()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
-
 	SDL_Quit();
 	return true;
 }
