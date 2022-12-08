@@ -1,4 +1,4 @@
-# LEGO ENGINE
+# DARK SIDE ENGINE
 
 A C++ 3D Engine created for the Master's Degree in Advanced Programming for AAA Videogames.
 
@@ -14,7 +14,7 @@ The source code of the project is available in this [GitHub repository](https://
  - Window resizing
  - Log console
 
-## How to use Lego Engine
+## How to use Dark Side Engine
 Take a look at the [wiki](https://github.com/marcelinus99/AAA/wiki) to see the full usage documentation of the engine.
 
 ## Libraries used
